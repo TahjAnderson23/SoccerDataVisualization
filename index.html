@@ -1,1 +1,41 @@
-Hello World
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Soccer Data Visualization CPSC 4030</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+    <h1>Soccer Data Visualization</h1>
+
+    <p>By: Elena Le, Matthew Rundle, Tahj Anderson :)</p>
+
+    <div>
+        <h2>Overview</h2>
+        <p>Soccer is one of the most popular sports in the world, bringing in millions of fans yearly to stadiums, sports bars, and tv screens. Although soccer is seemingly less intricate than other sports, there are countless intricacies within it. With eleven people on a squad, the soccer pitch transforms into a grid with players being the nodes on the coordinate system and completed passes becoming the links. Shots taken become a position-based statistic intertwined with play scenarios and player skill levels. Viewing the beautiful game through an analytic lens leads us to a pivotal question. In the game of soccer, can we find patterns in soccer match data?</p>
+    </div>
+    
+    <div>
+        <h2>Visualization 1: Bubble Distribution of Winning Percentages</h2>
+    </div>
+    <svg id="bubble"></svg>
+    
+    <div>
+        <h2>Visualization 2: Passing Networks </h2>
+    </div>
+    <svg id="network"></svg>
+    
+    <div class="heat-map-section">
+      <h2>Visualization 3: Choropleth Shots Made</h2>
+    </div>
+    <svg id="choropleth"></svg>
+
+    <script src="code/bubble.js"></script>
+    <script src="code/network.js"></script>
+    <script src="code/choropleth.js"></script>
+  </body>
+</html>
+
