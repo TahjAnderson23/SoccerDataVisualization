@@ -19,20 +19,43 @@
     </div>
     
     <div>
-        <h2>Visualization 1: Bubble Distribution of Winning Percentages</h2>
+        <h3>Visualization 1: Bubble Distribution of Winning Percentages</h3>
     </div>
     <svg id="bubble"></svg>
-    
-    <div>
-        <h2>Visualization 2: Passing Networks </h2>
-    </div>
-    <svg id="network"></svg>
-    
-    <div class="heat-map-section">
-      <h2>Visualization 3: Choropleth Shots Made</h2>
-    </div>
-    <svg id="choropleth"></svg>
 
+    <div class = "row"> 
+      <div class = "bottom-vis">
+          <h3>Visualization 2: Passing Networks </h3>
+          <svg id="network"></svg>
+      </div>
+      
+      <div class="bottom-vis">
+        <h3>Visualization 3: Choropleth Shots Made</h3>
+        <svg id="choropleth"></svg>
+      </div>
+  </div>
+
+
+  <div>
+    <menu>
+      <label for = "league">Choose League</label>
+      <select name = "league" id = "league">
+        <option value = "League all">All</option>
+        <option value = "League 1">Premier League</option>
+        <option value = "League 2">Serie A</option>
+        <option value = "League 3">Bundesliga</option>
+        <option value = "League 4">La Liga</option>
+        <option value = "League 5">Ligue 1</option>
+      </select>
+      <label for = "team">Choose Team</label>
+      <select name = "team" id = "team">
+        <option value = "team all">All</option>
+      </select>
+    </menu>
+    <div class="slidecontainer">
+      <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+    </div>
+  </div>
     <script src="code/bubble.js"></script>
     <script src="code/network.js"></script>
     <script src="code/choropleth.js"></script>
