@@ -60,3 +60,7 @@ body{
     cursor: pointer; /* Cursor on hover */
   }
 
+  .person-stuff{
+    width: 30px;
+  }
+
