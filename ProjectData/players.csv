@@ -1,4 +1,4 @@
-passportArea,weight,firstName,middleName,lastName,currentTeamId,birthDate,height,role,birthArea,wyId,foot,shortName,currentNationalTeamId
+passportArea,weight,firstName,middleName,lastName,currentTeamId,birthDate,height,role,birthArea,playerId,foot,shortName,currentNationalTeamId
 "{'name': 'Turkey', 'id': '792', 'alpha3code': 'TUR', 'alpha2code': 'TR'}",78,Harun,,Tekin,4502,1989-06-17,187,"{'code2': 'GK', 'code3': 'GKP', 'name': 'Goalkeeper'}","{'name': 'Turkey', 'id': '792', 'alpha3code': 'TUR', 'alpha2code': 'TR'}",32777,right,H. Tekin,4687
 "{'name': 'Senegal', 'id': '686', 'alpha3code': 'SEN', 'alpha2code': 'SN'}",73,Malang,,Sarr,3775,1999-01-23,182,"{'code2': 'DF', 'code3': 'DEF', 'name': 'Defender'}","{'name': 'France', 'id': '250', 'alpha3code': 'FRA', 'alpha2code': 'FR'}",393228,left,M. Sarr,4423
 "{'name': 'France', 'id': '250', 'alpha3code': 'FRA', 'alpha2code': 'FR'}",72,Over,,Mandanda,3772,1998-10-26,176,"{'code2': 'GK', 'code3': 'GKP', 'name': 'Goalkeeper'}","{'name': 'France', 'id': '250', 'alpha3code': 'FRA', 'alpha2code': 'FR'}",393230,,O. Mandanda,null
