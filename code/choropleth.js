@@ -12,6 +12,7 @@
   
         function fisheye(d) {
             console.log("focus", focus)
+            // console.log("d.x", d.x)
           var dx = d.x - focus[0],
               dy = d.y - focus[1],
               dd = Math.sqrt(dx * dx + dy * dy);
@@ -84,7 +85,7 @@
       return d3.rebind(fisheye, scale, "domain", "range");
     }
   })();
-d3.csv("/ProjectData/shots.csv").then(
+d3.csv("./ProjectData/shots.csv").then(
 
     function(shotsData){
         
@@ -331,9 +332,9 @@ d3.csv("/ProjectData/shots.csv").then(
             //     // console.log("i", i)
 
             //     if(d != undefined){
-            //         var hmm = {x: d3.selectAll(".aggregated")._groups[0][d[0]].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+            //         var xAndy = {x: d3.selectAll(".aggregated")._groups[0][d[0]].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
             //         // console.log(hmm)
-            //         var fe = fisheye(hmm)
+            //         var fe = fisheye(xAndy)
             //         console.log("fe", fe)
             //         return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
             //     }
@@ -347,9 +348,9 @@ d3.csv("/ProjectData/shots.csv").then(
             //         // console.log("d hey", d)
             //         // console.log("i", i)
             //         if(d != undefined){
-            //             var hmm = {x: d3.selectAll(".aggregated")._groups[0][i].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+            //             var xAndy = {x: d3.selectAll(".aggregated")._groups[0][i].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
 
-            //          var fe = fisheye(hmm)
+            //          var fe = fisheye(xAndy)
             //           //console.log("fe", fe)
             //          return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
             //         }
