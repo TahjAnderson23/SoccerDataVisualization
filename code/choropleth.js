@@ -1,20 +1,104 @@
-
+(function() {
+    d3.fisheye = {
+      scale: function(scaleType) {
+        return d3_fisheye_scale(scaleType(), 3, 0);
+      },
+      circular: function() {
+        var radius = 200,
+            distortion = 2,
+            k0,
+            k1,
+            focus = [0, 0];
+  
+        function fisheye(d) {
+            console.log("focus", focus)
+          var dx = d.x - focus[0],
+              dy = d.y - focus[1],
+              dd = Math.sqrt(dx * dx + dy * dy);
+          if (!dd || dd >= radius) return {x: d.x, y: d.y, z: dd >= radius ? 1 : 10};
+          var k = k0 * (1 - Math.exp(-dd * k1)) / dd * .75 + .25;
+          return {x: focus[0] + dx * k, y: focus[1] + dy * k, z: Math.min(k, 10)};
+        }
+  
+        function rescale() {
+          k0 = Math.exp(distortion);
+          k0 = k0 / (k0 - 1) * radius;
+          k1 = distortion / radius;
+          return fisheye;
+        }
+  
+        fisheye.radius = function(_) {
+          if (!arguments.length) return radius;
+          radius = +_;
+          return rescale();
+        };
+  
+        fisheye.distortion = function(_) {
+          if (!arguments.length) return distortion;
+          distortion = +_;
+          return rescale();
+        };
+  
+        fisheye.focus = function(_) {
+          if (!arguments.length) return focus;
+          focus = _;
+          return fisheye;
+        };
+  
+        return rescale();
+      }
+    };
+  
+    function d3_fisheye_scale(scale, d, a) {
+  
+      function fisheye(_) {
+        var x = scale(_),
+            left = x < a,
+            range = d3.extent(scale.range()),
+            min = range[0],
+            max = range[1],
+            m = left ? a - min : max - a;
+        if (m == 0) m = max - min;
+        return (left ? -1 : 1) * m * (d + 1) / (d + (m / Math.abs(x - a))) + a;
+      }
+  
+      fisheye.distortion = function(_) {
+        if (!arguments.length) return d;
+        d = +_;
+        return fisheye;
+      };
+  
+      fisheye.focus = function(_) {
+        if (!arguments.length) return a;
+        a = +_;
+        return fisheye;
+      };
+  
+      fisheye.copy = function() {
+        return d3_fisheye_scale(scale.copy(), d, a);
+      };
+  
+      fisheye.nice = scale.nice;
+      fisheye.ticks = scale.ticks;
+      fisheye.tickFormat = scale.tickFormat;
+      return d3.rebind(fisheye, scale, "domain", "range");
+    }
+  })();
 d3.csv("/ProjectData/shots.csv").then(
 
     function(shotsData){
         
         //pitch is preferred to be 105 by 68 metres... but varies
-
-        //positionX is index 9, positionY is index 10
-        //shot result is index 7
-
         console.log(shotsData)
 
         console.log(shotsData[0])
         
         var dimensions = {
-            width: 300,
-            height: 150
+            width: 200, //change to 200 if you get fisheye to work??
+            height: 68/105 * 200 + 30,
+            margin: {
+                top: 30
+            }
         }
 
         var svg = d3.select("#choropleth")
@@ -25,101 +109,137 @@ d3.csv("/ProjectData/shots.csv").then(
         var xScale = d3.scaleLinear()
                     .domain([0, 1])
                     .range([0, dimensions.width])
+        var xScaleP = d3.scaleLinear()
+                    .domain([1-16.5/105, 1])
+                    .range([0, 1])
 
         var yScale = d3.scaleLinear()
                      .domain([1, 0])
-                     .range([0, dimensions.height])
+                     .range([dimensions.margin.top, dimensions.height])
+        var yScaleP = d3.scaleLinear()
+                    .domain([16.5/68, 1-16.5/68])
+                    .range([0, 1])
 
-        var colorScale = d3.scaleLinear()
-                           .domain([0, 1])
-                           .range(["red", "green"])
+        var numVertical = 60, 
+            numHorizontal = 25, 
+            numVerticalP = Math.ceil(33/68*numHorizontal),
+            numHorizontalP = Math.ceil(16.5/105 * numVertical)
 
-        // var colorScale = d3.scaleOrdinal()
-        //                    .domain([0, 1])
-        //                    .range(["#f7fcf5","#f6fcf4","#f6fcf4","#f5fbf3","#f5fbf2","#f4fbf2","#f4fbf1","#f3faf0","#f2faf0","#f2faef","#f1faee","#f1faee","#f0f9ed","#f0f9ec","#eff9ec","#eef9eb","#eef8ea","#edf8ea","#ecf8e9","#ecf8e8","#ebf7e7","#ebf7e7","#eaf7e6","#e9f7e5","#e9f6e4","#e8f6e4","#e7f6e3","#e7f6e2","#e6f5e1","#e5f5e1","#e4f5e0","#e4f4df","#e3f4de","#e2f4dd","#e1f4dc","#e1f3dc","#e0f3db","#dff3da","#def2d9","#ddf2d8","#ddf2d7","#dcf1d6","#dbf1d5","#daf1d4","#d9f0d3","#d8f0d2","#d7efd1","#d6efd0","#d5efcf","#d4eece","#d4eece","#d3eecd","#d2edcb","#d1edca","#d0ecc9","#cfecc8","#ceecc7","#cdebc6","#ccebc5","#cbeac4","#caeac3","#c9eac2","#c8e9c1","#c6e9c0","#c5e8bf","#c4e8be","#c3e7bd","#c2e7bc","#c1e6bb","#c0e6b9","#bfe6b8","#bee5b7","#bde5b6","#bbe4b5","#bae4b4","#b9e3b3","#b8e3b2","#b7e2b0","#b6e2af","#b5e1ae","#b3e1ad","#b2e0ac","#b1e0ab","#b0dfaa","#aedfa8","#addea7","#acdea6","#abdda5","#aadca4","#a8dca3","#a7dba2","#a6dba0","#a5da9f","#a3da9e","#a2d99d","#a1d99c","#9fd89b","#9ed799","#9dd798","#9bd697","#9ad696","#99d595","#97d494","#96d492","#95d391","#93d390","#92d28f","#91d18e","#8fd18d","#8ed08c","#8ccf8a","#8bcf89","#8ace88","#88cd87","#87cd86","#85cc85","#84cb84","#82cb83","#81ca82","#80c981","#7ec980","#7dc87f","#7bc77e","#7ac77c","#78c67b","#77c57a","#75c479","#74c478","#72c378","#71c277","#6fc276","#6ec175","#6cc074","#6bbf73","#69bf72","#68be71","#66bd70","#65bc6f","#63bc6e","#62bb6e","#60ba6d","#5eb96c","#5db86b","#5bb86a","#5ab769","#58b668","#57b568","#56b467","#54b466","#53b365","#51b264","#50b164","#4eb063","#4daf62","#4caf61","#4aae61","#49ad60","#48ac5f","#46ab5e","#45aa5d","#44a95d","#42a85c","#41a75b","#40a75a","#3fa65a","#3ea559","#3ca458","#3ba357","#3aa257","#39a156","#38a055","#379f54","#369e54","#359d53","#349c52","#339b51","#329a50","#319950","#30984f","#2f974e","#2e964d","#2d954d","#2b944c","#2a934b","#29924a","#28914a","#279049","#268f48","#258f47","#248e47","#238d46","#228c45","#218b44","#208a43","#1f8943","#1e8842","#1d8741","#1c8640","#1b8540","#1a843f","#19833e","#18823d","#17813d","#16803c","#157f3b","#147e3a","#137d3a","#127c39","#117b38","#107a37","#107937","#0f7836","#0e7735","#0d7634","#0c7534","#0b7433","#0b7332","#0a7232","#097131","#087030","#086f2f","#076e2f","#066c2e","#066b2d","#056a2d","#05692c","#04682b","#04672b","#04662a","#03642a","#036329","#026228","#026128","#026027","#025e27","#015d26","#015c25","#015b25","#015a24","#015824","#015723","#005623","#005522","#005321","#005221","#005120","#005020","#004e1f","#004d1f","#004c1e","#004a1e","#00491d","#00481d","#00471c","#00451c","#00441b"])
-        
-        //var yScale 
-        //step 1: figure out how many rectangles we will be appending... depending on user input???
-        //only do right half of the field???
-        //USER CHOOSES LENGTH AND WIDTH OF BOX
-        var numVertical = 80 //change depending on user input??
-        var numHorizontal = 30 //ask how many vertical / horizontal cuts desired?
-
-        //step 2: create all of these rectangels?
-
-        //need to go through data and create a dictionary where the first index is the
-        //number corresponding to the rectange and the second index is the percentage corresponding to it?
         var rectangles = new Array(numVertical*numHorizontal)
         //rows are sectioned off of every numVertical...
+        
+        var numPenalty = 0;
 
-        shotsData.forEach(d => {
-            // console.log("d", d)
+        function calcRectangles(){
+            rectangles = new Array(numVertical*numHorizontal)
+            shotsData.forEach(d => {
             //figure out which rectangle
             //figure out which row...
-            var row = Math.floor(numHorizontal*(+d.positionY))
-            // console.log(row)
-            var col = Math.floor(numVertical*(+d.positionX))
-            // console.log(col)
+            var penaltyBox = false
+            if(d.positionX > 1-16.5/105 && d.positionY < 1-16.5/68 && d.positionY > 16.5/68){
+                penaltyBox = true
+            }
+            var row = Math.floor(numHorizontal*(d.positionY))
+            var col = Math.floor(numVertical*(d.positionX))
             var whichOne = numVertical*row + col
-            // rectangles[whichOne] = [+d.positionY, +d.positionX, d.shotResult]
-            // console.log(rectangles[whichOne])
+
+            var scaledY = yScaleP(d.positionY)
+            var rowP = Math.floor(numHorizontalP*yScaleP(d.positionY))
+            
+            var scaledX = xScaleP(d.positionX)
+            var colP = Math.floor(numVerticalP*(xScaleP(d.positionX)))
+
+            var whichOneP = numVerticalP*rowP + colP
+
             if(rectangles[whichOne] == undefined){
-                if(d.shotResult == "Goal"){
-                    rectangles[whichOne] = [whichOne, 1, 1] //which one, one goal made, one shot
+                if(penaltyBox){
+                    numPenalty++;
                 }
-                else{ //add else if if wanna test for own goals...
-                    rectangles[whichOne] = [whichOne, 0, 1] //which one, zero goals made, one shot
+                if(d.shotResult == "Goal"){
+                    rectangles[whichOne] = [whichOne, 1, 1, penaltyBox, whichOneP] //which one, one goal made, one shot, whether or not in penalty box, which one for rotate
+                    rectangles
+
+                }
+                else if(d.shotResult != "OwnGoal"){ //filters out own goals
+                    rectangles[whichOne] = [whichOne, 0, 1, penaltyBox, whichOneP] //which one, zero goals made, one shot, whether or not in penalty box, which one for rotate
                 }
             }
             else{
                 if(d.shotResult == "Goal"){
                     rectangles[whichOne][1]++;
                 }
-                rectangles[whichOne][2]++; //add if if wanna test for own goals...
+                if(d.shotResult != "OwnGoal"){ //doesn't mistakenly count own goal
+                    rectangles[whichOne][2]++;
+                }
             }
-        }) 
-        // console.log("rectangles:", rectangles)
-
-
-        var colorScale2 = d3.scaleLinear()
+        }) }
+        calcRectangles()
+        
+        var colorScale2 = d3.scaleLinear() //second best
                            .domain(d3.extent(rectangles, d => {
                             if(d != undefined)
                                 return d[1]/d[2]
                            }))
                            .range(["red", "green"])
+        
+                           //WHAT IF LESS THAN .1 HAD A DIFFERENT COLOR SCALE THAN >.1......
+        var colorScale6 = d3.scaleLinear() //BEST SO FAR
+                            .domain([0, .1, 1]) //can change middle number...
+                            .range(["red", "green"])
+        
+        var totalColorScale = d3.scaleLinear()
+                           .domain(d3.extent(rectangles, d => {
+                            if(d != undefined)
+                                return d[2]
+                           }))
+                           .range(["white", "black"])
+            
+        var colorScale0 = function(d){
+            if(d == 0)
+                return "#970b13"
+            if(d < .025)
+                return "#bb151a"
+            if(d < .1)
+                return "#fc8a6b"
+            if(d < .15)
+                return "#d3eecd"
+            if(d < .2)
+                return "#b7e2b1"
+            if(d < .3)
+                return "#97d494"
+            if(d < .5)
+                return "#73c378"
+            if(d < .75)
+                return "#2f984f"
+            if(d < .9)
+                return "#036429"
+            return "#00441b"
+        }
 
+                        //    Green: ["#f7fcf5","#e8f6e3","#d3eecd","#b7e2b1","#97d494","#73c378","#4daf62","#2f984f","#157f3b","#036429","#00441b"]
+                        //    Red:   ["#fff5f0","#fee3d6","#fdc9b4","#fcaa8e","#fc8a6b","#f9694c","#ef4533","#d92723","#bb151a","#970b13","#67000d"]
+        
         var display = svg.append("g")
+                            .attr("id", "display")
                             .selectAll("rect")
                             .data(rectangles)
                             .enter()
                             .append("rect")
-                            .attr("x", d => {
-                                if(d != undefined){
-                                    return xScale(d[0]%numVertical/numVertical)
-                                }
-                            })
-                            .attr("y", d =>{
-                                if(d != undefined){
-                                    return yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal
-                                }
-                            })
+                            .attr("class", "aggregated")
+                            .filter(d => d != undefined)
+                            .attr("x", d => xScale(d[0]%numVertical/numVertical))
+
+                            .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
                             .attr("width", xScale(1.0/numVertical))
                             .attr("height", dimensions.height - yScale(1.0/numHorizontal))
-                            .attr("fill", d => {
-                                if(d != undefined)
-                                {
-                                    console.log(d[1]/d[2])
-                                    return colorScale2(d[1]/d[2])
-                                }
-                                else
-                                    return "black"
-                            })
+                            .attr("fill", d => colorScale6(d[1]/d[2]))
                             .attr("stroke", "#bbb")
                             .attr("stroke-width", 1)
                             .on("mouseover", function(d, i){
                                 d3.select(this)
                                 .attr("stroke", "black")
-                                text.text("Proportion in Rectangle: " + (Math.round(i[1]/i[2] * 100) / 100).toFixed(3))
+                                text
+                                .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
 
                             })
                             .on("mouseout", function(){
@@ -127,11 +247,7 @@ d3.csv("/ProjectData/shots.csv").then(
                                 .attr("stroke", "#bbb")
                             })
                             .append("text")
-                            .text(d => {
-                                if(d != undefined)
-                                    return d[0];
-                            })
-
+                            .text(d => d[0])
         var text = svg.append('text')
                     .attr("id", 'topbartext')
                     .attr("x", dimensions.width)
@@ -140,13 +256,288 @@ d3.csv("/ProjectData/shots.csv").then(
                     .attr("dy", ".15em")
                     .attr("text-anchor", "end") //makes sure it does not go outside the svg
                     .attr("font-family", "sans-serif")
-                    .text("Proportion in Rectangle: 0")
+                    .style("font-size", 10)
+                    .text("Percentage in Rectangle: 0%")
 
 
 
-        //step 3: depending on number/percentage of shots made in the different regions, figure out different color
-        //in order to do this will need to define a colorscale first...
-                            
+        d3.select("#penalty-box").on('click', function(){
+            d3.selectAll(".aggregated")
+              .filter(d => {
+                  if(d != undefined){
+                    return d[3] == false;
+                  }
+                })
+              .transition().duration(1000)
+              .attr("width", 0)
+            // xScale
+            //     .domain([.1, .9]) THIS CAUSES ERRORS...
+            //current idea: change numVertical and numHorizontal depending on d3.extent(...)
+
+            var yScale2 = d3.scaleLinear()
+              .domain([1, 1-16.5/105])
+              .range([0, dimensions.height])
+
+            console.log("numV", numVerticalP)
+            console.log("numH", numHorizontalP)
+            
+            d3.selectAll(".aggregated") //WHATS WRONG WITH THIS IS D[4] IS WRONG... made it separate but rounding errors cause slightly off numbering of squares
+                .filter(d => {
+                    if(d != undefined && d[3]){
+                        console.log(d)
+                        return d;
+                    }
+                })
+                .transition().duration(10000)
+                .attr("x", d => xScale(d[4]%numVerticalP/numVerticalP))
+                .attr("y", d => yScale(Math.floor(d[4]/numVerticalP)/numHorizontalP) - dimensions.height/numHorizontalP)
+                .attr("width", xScale(1.0/numVerticalP))
+                .attr("height", dimensions.height - yScale(1.0/numHorizontalP))
+            // d3.selectAll(".aggregated")
+            //     .filter(d => {
+            //         if(d != undefined && d[3])
+            //             return d
+            //     })
+            //     .transition().duration(3000)
+            //     .attr("transform", "scale(.5 1)")
+            // d3.selectAll(".aggregated")
+            //   .filter(d => d != undefined && d[3])
+            //   .transition().duration(3000)
+            //   .attr("x", d => xScale(d[4]%numHorizontal/numHorizontal))
+            //   .attr("y", d => yScale2(Math.floor(d[4]/numHorizontal)/numVertical) - dimensions.height/numVertical)
+            //   .attr("width", xScale(1.0/numHorizontal))
+            //   .attr("height", d => dimensions.height - yScale(1.0/numHorizontal)) //HAS TO DO SOMETHING WITH THIS, CHANGING YSCALE AFFECTED THIS THINGS DOMAIN TOO!!!
+            // d3.selectAll(".aggregated")
+            //   .filter(d => {
+            //       if(d != undefined){
+            //         return d[3] == true;
+            //       }
+            //     })
+            //   .transition().duration(3000)
+            //   .attr('transform', 'translate(100,400)rotate(-90)scale(.5 1)')
+
+            })
+
+
+            var fisheye = d3.fisheye.circular()
+                                    .radius(20)
+                                    .distortion(-20)
+
+            fisheye.focus([dimensions.width/2, (dimensions.height+dimensions.margin.top)/2])
+
+
+            // d3.selectAll(".aggregated").attr("transform", (d, i) => {
+            //     // console.log("d", d)
+            //     // console.log("i", i)
+
+            //     if(d != undefined){
+            //         var hmm = {x: d3.selectAll(".aggregated")._groups[0][d[0]].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+            //         // console.log(hmm)
+            //         var fe = fisheye(hmm)
+            //         console.log("fe", fe)
+            //         return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
+            //     }
+            // })
+
+            // svg.on("mousemove", function(event){
+            //     var mouse = d3.pointer(event)
+            //     // console.log(mouse)
+            //     fisheye.focus(mouse)
+            //     d3.selectAll(".aggregated").attr("transform", (d, i) => {
+            //         // console.log("d hey", d)
+            //         // console.log("i", i)
+            //         if(d != undefined){
+            //             var hmm = {x: d3.selectAll(".aggregated")._groups[0][i].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+
+            //          var fe = fisheye(hmm)
+            //           //console.log("fe", fe)
+            //          return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
+            //         }
+            //     })  
+            // })
+
+            //second svg for total shots
+            var svg2 = d3.select("#choropleth2")
+            .style("width", dimensions.width)
+            .style("height", dimensions.height)
+
+            var text2 = svg2.append('text')
+            .attr("id", 'topbartext2')
+            .attr("x", dimensions.width)
+            .attr("y", 20)
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("text-anchor", "end") //makes sure it does not go outside the svg
+            .attr("font-family", "sans-serif")
+            .style("font-size", 10)
+            .text("Shots in Rectangle: 0")
+
+            var display2 = svg2.append("g")
+                            .attr("id", "display2")
+                            .selectAll("rect")
+                            .data(rectangles)
+                            .enter()
+                            .append("rect")
+                            .attr("class", "aggregated2")
+                            .filter(d => d != undefined)
+                            .attr("x", d => xScale(d[0]%numVertical/numVertical))
+
+                            .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
+                            .attr("width", xScale(1.0/numVertical))
+                            .attr("height", dimensions.height - yScale(1.0/numHorizontal))
+                            .attr("fill", d => totalColorScale(d[2]))
+                            .attr("stroke", "#bbb")
+                            .attr("stroke-width", 1)
+                            .on("mouseover", function(d, i){
+                                d3.select(this)
+                                .attr("stroke", "black")
+                                text2
+                                .text("Shots in Rectangle: " + i[2])
+
+                            })
+                            .on("mouseout", function(){
+                                d3.select(this)
+                                .attr("stroke", "#bbb")
+                            })
+                            .append("text")
+                            .text(d => d[0])
+
+            d3.select("#numVertical").on("change", function(){
+                numVertical = parseInt(document.getElementById("numVertical").value)
+                calcRectangles()
+
+                svg.select("#display").remove();
+                svg2.select("#display2").remove();
+
+                var display = svg.append("g")
+                    .attr("id", "display")
+                    .selectAll("rect")
+                    .data(rectangles)
+                    .enter()
+                    .append("rect")
+                    .attr("class", "aggregated")
+                    .filter(d => d != undefined)
+                    .attr("x", d => xScale(d[0]%numVertical/numVertical))
+                    .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
+                    .attr("width", xScale(1.0/numVertical))
+                    .attr("height", dimensions.height - yScale(1.0/numHorizontal))
+                    .attr("fill", d => colorScale6(d[1]/d[2]))
+                    .attr("stroke", "#bbb")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(d, i){
+                        d3.select(this)
+                        .attr("stroke", "black")
+                        text.text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this)
+                        .attr("stroke", "#bbb")
+                    })
+                    .append("text")
+                    .text(d => d[0])
+
+                var display2 = svg2.append("g")
+                    .attr("id", "display2")
+                    .selectAll("rect")
+                    .data(rectangles)
+                    .enter()
+                    .append("rect")
+                    .attr("class", "aggregated2")
+                    .filter(d => d != undefined)
+                    .attr("x", d => xScale(d[0]%numVertical/numVertical))
+                    .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
+                    .attr("width", xScale(1.0/numVertical))
+                    .attr("height", dimensions.height - yScale(1.0/numHorizontal))
+                    .attr("fill", d => {console.log(d) ; return totalColorScale(d[2])})
+                    .attr("stroke", "#bbb")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(d, i){
+                        d3.select(this)
+                        .attr("stroke", "black")
+                        text2
+                        .text("Shots in Rectangle: " + i[2])
+
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this)
+                        .attr("stroke", "#bbb")
+                    })
+                    .append("text")
+                    .text(d => d[0])
+            })
+                
+            d3.select("#numHorizontal").on("change", function(){
+                numHorizontal = parseInt(document.getElementById("numHorizontal").value)
+                calcRectangles()
+
+                svg.select("#display").remove();
+                svg2.select("#display2").remove();
+
+                var display = svg.append("g")
+                    .attr("id", "display")
+                    .selectAll("rect")
+                    .data(rectangles)
+                    .enter()
+                    .append("rect")
+                    .attr("class", "aggregated")
+                    .filter(d => d != undefined)
+                    .attr("x", d => xScale(d[0]%numVertical/numVertical))
+                    .attr("y", d => {
+                        if(numHorizontal == 1)
+                            return dimensions.margin.top + yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal
+                        return yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal
+                    })
+                    .attr("width", xScale(1.0/numVertical))
+                    .attr("height", dimensions.height - yScale(1.0/numHorizontal))
+                    .attr("fill", d => colorScale6(d[1]/d[2]))
+                    .attr("stroke", "#bbb")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(d, i){
+                        d3.select(this)
+                        .attr("stroke", "black")
+                        text.text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this)
+                        .attr("stroke", "#bbb")
+                    })
+                    .append("text")
+                    .text(d => d[0])
+                
+                var display2 = svg2.append("g")
+                    .attr("id", "display2")
+                    .selectAll("rect")
+                    .data(rectangles)
+                    .enter()
+                    .append("rect")
+                    .attr("class", "aggregated2")
+                    .filter(d => d != undefined)
+                    .attr("x", d => xScale(d[0]%numVertical/numVertical))
+                    .attr("y", d => {
+                        if(numHorizontal == 1)
+                            return dimensions.margin.top + yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal
+                        return yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal
+                    })
+                    .attr("width", xScale(1.0/numVertical))
+                    .attr("height", dimensions.height - yScale(1.0/numHorizontal))
+                    .attr("fill", d => {console.log(d) ; return totalColorScale(d[2])})
+                    .attr("stroke", "#bbb")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(d, i){
+                        d3.select(this)
+                        .attr("stroke", "black")
+                        text2
+                        .text("Shots in Rectangle: " + i[2])
+
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this)
+                        .attr("stroke", "#bbb")
+                    })
+                    .append("text")
+                    .text(d => d[0])
+            })
     }
 
 )
