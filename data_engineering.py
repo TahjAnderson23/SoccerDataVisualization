@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def convert_json_to_csv(file_path, new_name):
     df = pd.read_json(file_path)
@@ -25,15 +26,43 @@ def combine_rows(data1, data2):
     df['clean_roles'] = df['role'].str[41:-2]
     df['clean_roles'] = df['clean_roles'].replace(' ','')
     df = df.drop(columns=['role'])
-    print(df)
     #df.to_csv("ProjectData/champions_league_events_with_names.csv")
-    for index, row in df.iterrows():
-        if index != 0:
-            if df['eventName'] != 'pass' or df[index - 1].eventName != 'pass':
-                df.drop(df.index[index])
 
+    df2 = df[df["eventName"].str.contains("Pass") == True]
+    df2.reset_index()  
+         
+                
+    # for index in df.iterrows():
+    #     if(df)
+def edit_columns(data1):
+    df = pd.read_csv(data1)
+    positions = df['positions']
+    
 
+    start_x = []
+    start_y = []
+    end_x = []
+    end_y = []
 
+    for val in positions:
+        start_y.append(list(eval(val))[0]['y'])
+        start_x.append(list(eval(val))[0]['x'])
+        end_y.append(list(eval(val))[-1]['y'])
+        end_x.append(list(eval(val))[-1]['x'])
 
+    #for val in res:
+    df['start_y'] = start_y
+    df['start_x'] = start_x
+    df['end_y'] = end_y
+    df['end_x'] = end_x
 
-combine_rows("events_data.csv", "ProjectData/players.csv")
+    df.to_csv("ProjectData/champions_league_events_with_names2.csv")
+
+def add_index(data1):
+    df = pd.read_csv(data1)
+    print(df)
+
+add_index("ProjectData/champions_league_events_with_names2.csv")
+#edit_columns("ProjectData/champions_league_events_with_names.csv")
+
+#combine_rows("events_data.csv", "ProjectData/players.csv")
