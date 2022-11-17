@@ -1,4 +1,4 @@
-d3.csv("finalbubbleset.csv").then(
+d3.csv("./ProjectData/finalbubbleset.csv").then(
      function(data) {
 
      // set the dimensions
