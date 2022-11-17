@@ -11,8 +11,6 @@
             focus = [0, 0];
   
         function fisheye(d) {
-            console.log("focus", focus)
-            // console.log("d.x", d.x)
           var dx = d.x - focus[0],
               dy = d.y - focus[1],
               dd = Math.sqrt(dx * dx + dy * dy);
@@ -88,14 +86,13 @@
 d3.csv("./ProjectData/shots.csv").then(
 
     function(shotsData){
-        
         //pitch is preferred to be 105 by 68 metres... but varies
         console.log(shotsData)
 
         console.log(shotsData[0])
         
         var dimensions = {
-            width: 200, //change to 200 if you get fisheye to work??
+            width: 200, 
             height: 68/105 * 200 + 30,
             margin: {
                 top: 30
@@ -193,7 +190,7 @@ d3.csv("./ProjectData/shots.csv").then(
                             if(d != undefined)
                                 return d[2]
                            }))
-                           .range(["white", "black"])
+                           .range(["white", "green"])
             
         var colorScale0 = function(d){
             if(d == 0)
@@ -229,7 +226,6 @@ d3.csv("./ProjectData/shots.csv").then(
                             .attr("class", "aggregated")
                             .filter(d => d != undefined)
                             .attr("x", d => xScale(d[0]%numVertical/numVertical))
-
                             .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
                             .attr("width", xScale(1.0/numVertical))
                             .attr("height", dimensions.height - yScale(1.0/numHorizontal))
@@ -239,13 +235,20 @@ d3.csv("./ProjectData/shots.csv").then(
                             .on("mouseover", function(d, i){
                                 d3.select(this)
                                 .attr("stroke", "black")
+                                // console.log("this", d3.select(this)._groups[0][0].__data__[0])
+                                // console.log(d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]])//._groups[0][i].attr("stroke", "black")
+                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
                                 text
                                 .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                                text2
+                                .text("Shots in Rectangle: " + i[2])
 
                             })
                             .on("mouseout", function(){
                                 d3.select(this)
                                 .attr("stroke", "#bbb")
+                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
+
                             })
                             .append("text")
                             .text(d => d[0])
@@ -319,43 +322,47 @@ d3.csv("./ProjectData/shots.csv").then(
 
             })
 
-
-            var fisheye = d3.fisheye.circular()
+            //BELOW IS COMMENTED CODE FOR CIRCULAR FISHEYE, DISTORTS TOO WEIRDLY...
+            /*var fisheye = d3.fisheye.circular()
                                     .radius(20)
-                                    .distortion(-20)
+                                    .distortion(.05)
 
             fisheye.focus([dimensions.width/2, (dimensions.height+dimensions.margin.top)/2])
 
 
-            // d3.selectAll(".aggregated").attr("transform", (d, i) => {
-            //     // console.log("d", d)
-            //     // console.log("i", i)
+            d3.selectAll(".aggregated").attr("transform", (d, i) => {
+                // console.log("d", d)
+                // console.log("i", i)
 
-            //     if(d != undefined){
-            //         var xAndy = {x: d3.selectAll(".aggregated")._groups[0][d[0]].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
-            //         // console.log(hmm)
-            //         var fe = fisheye(xAndy)
-            //         console.log("fe", fe)
-            //         return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
-            //     }
-            // })
+                if(d != undefined){
+                    var xAndy = {x: d3.selectAll(".aggregated")._groups[0][d[0]].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+                    // console.log(xAndy)
+                    var fe = fisheye(xAndy)
+                    // console.log("fe", fe)
+                    return "translate(" + [fe.x-xAndy.x, fe.y-xAndy.y] + ")" + "scale(" + fe.z + ")"
+                }
+            })
 
-            // svg.on("mousemove", function(event){
-            //     var mouse = d3.pointer(event)
-            //     // console.log(mouse)
-            //     fisheye.focus(mouse)
-            //     d3.selectAll(".aggregated").attr("transform", (d, i) => {
-            //         // console.log("d hey", d)
-            //         // console.log("i", i)
-            //         if(d != undefined){
-            //             var xAndy = {x: d3.selectAll(".aggregated")._groups[0][i].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
+            svg.on("mousemove", function(event){
+                var mouse = d3.pointer(event)
+                // console.log(mouse)
+                fisheye.focus(mouse)
+                d3.selectAll(".aggregated").attr("transform", (d, i) => {
+                    // console.log("d hey", d)
+                    // console.log("i", i)
+                    if(d != undefined){
+                        var xAndy = {x: d3.selectAll(".aggregated")._groups[0][i].getAttribute("x"), y: d3.selectAll(".aggregated")._groups[0][i].getAttribute("y")}
 
-            //          var fe = fisheye(xAndy)
-            //           //console.log("fe", fe)
-            //          return "translate(" + [fe.x, fe.y] + ")" + "scale(" + fe.z + ")"
-            //         }
-            //     })  
-            // })
+                     var fe = fisheye(xAndy)
+                      //console.log("fe", fe)
+                     return "translate(" + [fe.x-xAndy.x, fe.y-xAndy.y] + ")" + "scale(" + fe.z + ")"
+                    }
+                })  
+            })*/
+            // var xFisheye = d3.fisheye.scale(d3.scale.identity).domain([0, width]).focus(0),
+            // yFisheye = d3.scale.linear().domain([0, height]);
+            // console.log(xFisheye)
+
 
             //second svg for total shots
             var svg2 = d3.select("#choropleth2")
@@ -392,6 +399,9 @@ d3.csv("./ProjectData/shots.csv").then(
                             .on("mouseover", function(d, i){
                                 d3.select(this)
                                 .attr("stroke", "black")
+                                d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                                text
+                                .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
                                 text2
                                 .text("Shots in Rectangle: " + i[2])
 
@@ -399,6 +409,7 @@ d3.csv("./ProjectData/shots.csv").then(
                             .on("mouseout", function(){
                                 d3.select(this)
                                 .attr("stroke", "#bbb")
+                                d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
                             })
                             .append("text")
                             .text(d => d[0])
@@ -428,11 +439,20 @@ d3.csv("./ProjectData/shots.csv").then(
                     .on("mouseover", function(d, i){
                         d3.select(this)
                         .attr("stroke", "black")
-                        text.text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                        // console.log("this", d3.select(this)._groups[0][0].__data__[0])
+                        // console.log(d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]])//._groups[0][i].attr("stroke", "black")
+                        d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                        text
+                        .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                        text2
+                        .text("Shots in Rectangle: " + i[2])
+
                     })
                     .on("mouseout", function(){
                         d3.select(this)
                         .attr("stroke", "#bbb")
+                        d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
+
                     })
                     .append("text")
                     .text(d => d[0])
@@ -449,12 +469,15 @@ d3.csv("./ProjectData/shots.csv").then(
                     .attr("y", d => yScale(Math.floor(d[0]/numVertical)/numHorizontal) - dimensions.height/numHorizontal)
                     .attr("width", xScale(1.0/numVertical))
                     .attr("height", dimensions.height - yScale(1.0/numHorizontal))
-                    .attr("fill", d => {console.log(d) ; return totalColorScale(d[2])})
+                    .attr("fill", d => {/*console.log(d)*/ ; return totalColorScale(d[2])})
                     .attr("stroke", "#bbb")
                     .attr("stroke-width", 1)
                     .on("mouseover", function(d, i){
                         d3.select(this)
                         .attr("stroke", "black")
+                        d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                        text
+                        .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
                         text2
                         .text("Shots in Rectangle: " + i[2])
 
@@ -462,6 +485,7 @@ d3.csv("./ProjectData/shots.csv").then(
                     .on("mouseout", function(){
                         d3.select(this)
                         .attr("stroke", "#bbb")
+                        d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
                     })
                     .append("text")
                     .text(d => d[0])
@@ -496,12 +520,20 @@ d3.csv("./ProjectData/shots.csv").then(
                     .on("mouseover", function(d, i){
                         d3.select(this)
                         .attr("stroke", "black")
-                        text.text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                        // console.log("this", d3.select(this)._groups[0][0].__data__[0])
+                        // console.log(d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]])//._groups[0][i].attr("stroke", "black")
+                        d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                        text
+                        .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
+                        text2
+                        .text("Shots in Rectangle: " + i[2])
 
                     })
                     .on("mouseout", function(){
                         d3.select(this)
                         .attr("stroke", "#bbb")
+                        d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
+
                     })
                     .append("text")
                     .text(d => d[0])
@@ -522,12 +554,15 @@ d3.csv("./ProjectData/shots.csv").then(
                     })
                     .attr("width", xScale(1.0/numVertical))
                     .attr("height", dimensions.height - yScale(1.0/numHorizontal))
-                    .attr("fill", d => {console.log(d) ; return totalColorScale(d[2])})
+                    .attr("fill", d => {/*console.log(d)*/ ; return totalColorScale(d[2])})
                     .attr("stroke", "#bbb")
                     .attr("stroke-width", 1)
                     .on("mouseover", function(d, i){
                         d3.select(this)
                         .attr("stroke", "black")
+                        d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                        text
+                        .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
                         text2
                         .text("Shots in Rectangle: " + i[2])
 
@@ -535,6 +570,7 @@ d3.csv("./ProjectData/shots.csv").then(
                     .on("mouseout", function(){
                         d3.select(this)
                         .attr("stroke", "#bbb")
+                        d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
                     })
                     .append("text")
                     .text(d => d[0])
