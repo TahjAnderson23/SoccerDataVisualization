@@ -33,6 +33,35 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                         .attr('cy', (dimensions.height + dimensions.margin.top) /2)
                         .attr('r', 5)
                         .style('fill', 'black')
+                        .on("mouseover", function(){
+                            d3.select(this).attr("r", 7)
+                        })
+                        .on("mouseout", function(){
+                            d3.select(this).attr("r", 5)
+                        })
+                        .on("click", function(event){
+                            if(event.ctrlKey){
+                                back_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                mid_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                front_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                            }
+                            connections.attr("stroke-width", ".01")
+                                .filter(d => d.clean_roles != "Goalkeeper") 
+                                .transition()
+                                .attr("stroke-width", "0")
+                        })
         var back_line = svg.append("g")
                         .append('line')
                         .attr('x1', back_x)
@@ -41,6 +70,35 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                         .attr('y2', dimensions.margin.top)
                         .style("stroke", "black")
                         .style("stroke-width", "2")
+                        .on("mouseover", function(){
+                            d3.select(this).style("stroke-width", "3.5")
+                        })
+                        .on("mouseout", function(){
+                            d3.select(this).style("stroke-width", "2")
+                        })
+                        .on("click", function(event){
+                            if(event.ctrlKey){
+                                goalie.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                mid_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                front_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                            }
+                            connections.attr("stroke-width", ".01")
+                                .filter(d => d.clean_roles != "Defender") 
+                                .transition()
+                                .attr("stroke-width", "0")
+                        })
         var mid_line = svg.append("g")
                           .append('line')
                           .attr('x1', mid_x)
@@ -49,6 +107,35 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                           .attr('y2', dimensions.margin.top)
                           .style("stroke", "black")
                           .style("stroke-width", "2")
+                          .on("mouseover", function(){
+                            d3.select(this).style("stroke-width", "3.5")
+                          })
+                          .on("mouseout", function(){
+                            d3.select(this).style("stroke-width", "2")
+                          })
+                          .on("click", function(event){
+                            if(event.ctrlKey){
+                                goalie.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                back_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                                front_line.on("click", function(){
+                                    connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                })
+                            }
+                            connections.attr("stroke-width", ".01")
+                                .filter(d => d.clean_roles != "Midfielder") 
+                                .transition()
+                                .attr("stroke-width", "0")
+                        })
         var front_line = svg.append("g")
                             .append('line')
                             .attr('x1', front_x)
@@ -57,6 +144,43 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                             .attr('y2', dimensions.margin.top)
                             .style("stroke", "black")
                             .style("stroke-width", "2")
+                            .on("mouseover", function(){
+                                d3.select(this).style("stroke-width", "3.5")
+                            })
+                            .on("mouseout", function(){
+                                d3.select(this).style("stroke-width", "2")
+                            })
+                            .on("click", function(event){
+                                if(event.ctrlKey){
+                                    goalie.on("click", function(){
+                                        connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                        .transition()
+                                        .attr("stroke-width", "0")
+                                    })
+                                    back_line.on("click", function(){
+                                        connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                        .transition()
+                                        .attr("stroke-width", "0")
+                                    })
+                                    mid_line.on("click", function(){
+                                        connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                        .transition()
+                                        .attr("stroke-width", "0")
+                                    })
+                                }
+                                connections.attr("stroke-width", ".01")
+                                    .filter(d => d.clean_roles != "Forward") 
+                                    .transition()
+                                    .attr("stroke-width", "0")
+                                // if (d3.event.ctrlKey) {
+                                //     console.log("hello control was pressed")
+                                    // mid_line.on("click", function(){
+                                    //     connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                    //     .transition()
+                                    //     .attr("stroke-width", "0")
+                                //     })
+                                // }
+                            })
         var goal_line = svg.append("g")
                            .append('line')
                            .attr('x1', goal_x)
@@ -65,14 +189,22 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                            .attr('y2', 0.4 * (dimensions.height + dimensions.margin.top))
                            .style("stroke", "black")
                            .style("stroke-width", "2")
-
-        
+                           .on("mouseover", function(){
+                              d3.select(this).style("stroke-width", "3.5")
+                           })
+                           .on("mouseout", function(){
+                              d3.select(this).style("stroke-width", "2")
+                           })
+                           .on("click", function(){
+                            connections.attr("stroke-width", ".01")
+                           })
+                           
         var connections = svg.append("g")
                              .selectAll("line")
                              .data(events_data)
                              .enter()
                              .append("line")
-                             .filter((d,i)=> i + 1<=20000)
+                             .filter((d,i)=> i + 1<=events_data.length) //was 20000 and line width was .03
                              .filter((d,i) => {
                                 if(d.eventName == "Pass" || events_data[i - 1].eventName == "Pass"){
                                     return d
@@ -150,7 +282,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                                     }
                                 }
                              })
-                             .attr("stroke-width", "0.03")
+                             .attr("stroke-width", "0.01")
 
         var shots = svg.append("g")
                        .selectAll("line")
