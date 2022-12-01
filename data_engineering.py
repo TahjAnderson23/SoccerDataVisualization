@@ -31,9 +31,6 @@ def combine_rows(data1, data2):
     df2 = df[df["eventName"].str.contains("Pass") == True]
     df2.reset_index()  
          
-                
-    # for index in df.iterrows():
-    #     if(df)
 def edit_columns(data1):
     df = pd.read_csv(data1)
     positions = df['positions']
@@ -62,7 +59,12 @@ def add_index(data1):
     df = pd.read_csv(data1)
     print(df)
 
-add_index("ProjectData/champions_league_events_with_names2.csv")
-#edit_columns("ProjectData/champions_league_events_with_names.csv")
+def iso_year(data1, data2):
+    df1 = pd.read_json(data1)
+    df2 = pd.read_json(data2)
 
-#combine_rows("events_data.csv", "ProjectData/players.csv")
+    print(df1)
+    
+    
+
+iso_year("ProjectData/events_England.json", "ProjectData/matches_England.json")

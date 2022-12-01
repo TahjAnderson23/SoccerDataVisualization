@@ -1,4 +1,4 @@
-d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
+d3.csv("ProjectData/EnglishTeamsData/Arsenal_event_data.csv").then(
     
     function(events_data){
         //console.log(events_data)
@@ -40,7 +40,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                             d3.select(this).attr("r", 5)
                         })
                         .on("click", function(event){
-                            if(event.ctrlKey){
+                            if(event.ctrlKey || event.metaKey){
                                 back_line.on("click", function(){
                                     connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
                                     .transition()
@@ -77,7 +77,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                             d3.select(this).style("stroke-width", "2")
                         })
                         .on("click", function(event){
-                            if(event.ctrlKey){
+                            if(event.ctrlKey || event.metaKey){
                                 goalie.on("click", function(){
                                     connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
                                     .transition()
@@ -114,7 +114,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                             d3.select(this).style("stroke-width", "2")
                           })
                           .on("click", function(event){
-                            if(event.ctrlKey){
+                            if(event.ctrlKey || event.metaKey){
                                 goalie.on("click", function(){
                                     connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
                                     .transition()
@@ -151,7 +151,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                                 d3.select(this).style("stroke-width", "2")
                             })
                             .on("click", function(event){
-                                if(event.ctrlKey){
+                                if(event.ctrlKey || event.metaKey){
                                     goalie.on("click", function(){
                                         connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
                                         .transition()
@@ -205,6 +205,15 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                              .enter()
                              .append("line")
                              .filter((d,i)=> i + 1<=events_data.length) //was 20000 and line width was .03
+                            //  .filter((d,i) => {
+                            //     if(i > 0 && d.clean_roles.length != null && events_data[i-1].clean_roles.length != null){
+                            //         console.log(events_data[i-1].clean_roles.length)
+                            //         return d
+                            //     }
+                    
+                            //     else if(i == 0)
+                            //         return d
+                            //  })
                              .filter((d,i) => {
                                 if(d.eventName == "Pass" || events_data[i - 1].eventName == "Pass"){
                                     return d
@@ -241,7 +250,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                              .attr("x2", (d,i) => {
                                 //console.log(events_data[i + 1].clean_roles)
                                 if(d.eventName == "Pass"){
-
+                                    console.log(events_data[i + 1].clean_roles)
                                     if(events_data[i + 1].clean_roles == "Goalkeeper"){
                                         return goalie_x
                                     }
@@ -254,6 +263,7 @@ d3.csv("./ProjectData/champions_league_events_with_names2.csv").then(
                                     if(events_data[i + 1].clean_roles == "Forward"){
                                         return front_x
                                     }
+                                    // d3.select(this).setAttribute("x1", 0)
                                 }
                              })
                              .attr("y2", (d,i) => {
