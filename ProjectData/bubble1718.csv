@@ -1,43 +1,43 @@
 TeamID,league,team,overallgamesplayed,wincount,percentwin
 148,La Liga,Barcelona,39,36,92.31
-98,Serie A,Juventus,40,34,85.00
+98,Serie A,Juventus,40,34,85
 105,Serie A,Napoli,39,33,84.62
 143,La Liga,Atletico Madrid,39,33,84.62
-88,Premier League,Manchester City,40,33,82.50
+88,Premier League,Manchester City,40,33,82.5
 171,Ligue 1,Monaco,38,33,86.84
 161,Ligue 1,Paris Saint Germain,38,33,86.84
-80,Premier League,Chelsea,40,32,80.00
-82,Premier League,Tottenham,40,30,75.00
+80,Premier League,Chelsea,40,32,80
+82,Premier League,Tottenham,40,30,75
 95,Serie A,Roma,38,30,78.95
 150,La Liga,Real Madrid,39,29,74.36
 117,Bundesliga,Bayern Munich,35,29,82.86
 83,Premier League,Arsenal,41,28,68.29
-89,Premier League,Manchester United,40,27,67.50
+89,Premier League,Manchester United,40,27,67.5
 164,Ligue 1,Marseille,38,27,71.05
-87,Premier League,Liverpool,40,26,65.00
+87,Premier League,Liverpool,40,26,65
 106,Serie A,Inter,39,26,66.67
-72,Premier League,Everton,40,26,65.00
+72,Premier League,Everton,40,26,65
 96,Serie A,Lazio,38,26,68.42
-168,Ligue 1,Nantes,39,25,64.10
+168,Ligue 1,Nantes,39,25,64.1
 178,Ligue 1,Lyon,38,25,65.79
 129,Bundesliga,Borussia Dortmund,35,25,71.43
-146,La Liga,Valencia,40,24,60.00
+146,La Liga,Valencia,40,24,60
 170,Ligue 1,Nice,38,24,63.16
 107,Serie A,Atalanta,39,24,61.54
 154,La Liga,Villarreal,39,23,58.97
-111,Serie A,AC Milan,40,23,57.50
+111,Serie A,AC Milan,40,23,57.5
 138,La Liga,Sevilla,39,22,56.41
 120,Bundesliga,Hoffenheim,35,22,62.86
 136,Bundesliga,RasenBallsport Leipzig,35,22,62.86
 110,Serie A,Fiorentina,39,22,56.41
 141,La Liga,Espanyol,39,22,56.41
 176,Ligue 1,Bordeaux,38,21,55.26
-130,Bundesliga,Borussia M.Gladbach,35,21,60.00
+130,Bundesliga,Borussia M.Gladbach,35,21,60
 102,Serie A,Sampdoria,38,21,55.26
-92,Premier League,Burnley,40,21,52.50
+92,Premier League,Burnley,40,21,52.5
 124,Bundesliga,Schalke 04,35,20,57.14
 140,La Liga,Real Sociedad,39,20,51.28
-75,Premier League,Leicester,40,20,50.00
+75,Premier League,Leicester,40,20,50
 163,Ligue 1,Rennes,38,20,52.63
 156,La Liga,Eibar,39,20,51.28
 113,Serie A,Torino,39,19,48.72
@@ -50,10 +50,10 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 167,Ligue 1,Angers,38,17,44.74
 104,Serie A,Sassuolo,39,17,43.59
 122,Bundesliga,Hertha Berlin,35,16,45.71
-97,Serie A,Bologna,40,16,40.00
-73,Premier League,Bournemouth,40,16,40.00
-84,Premier League,Swansea,40,16,40.00
-85,Premier League,Stoke,40,16,40.00
+97,Serie A,Bologna,40,16,40
+73,Premier League,Bournemouth,40,16,40
+84,Premier League,Swansea,40,16,40
+85,Premier League,Stoke,40,16,40
 119,Bundesliga,Bayer Leverkusen,35,16,45.71
 99,Serie A,Udinese,38,16,42.11
 116,Serie A,Cagliari,39,15,38.46
@@ -63,21 +63,21 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 160,Ligue 1,Lille,38,15,39.47
 131,Bundesliga,Wolfsburg,35,15,42.86
 78,Premier League,Crystal Palace,41,15,36.59
-74,Premier League,Southampton,40,15,37.50
+74,Premier League,Southampton,40,15,37.5
 166,Ligue 1,Montpellier,38,15,39.47
 135,Bundesliga,Freiburg,35,15,42.86
 121,Bundesliga,Augsburg,35,15,42.86
 175,Ligue 1,Saint-Etienne,38,14,36.84
 174,Ligue 1,Toulouse,38,14,36.84
-137,La Liga,Malaga,39,14,35.90
-76,Premier League,West Bromwich Albion,40,14,35.00
+137,La Liga,Malaga,39,14,35.9
+76,Premier League,West Bromwich Albion,40,14,35
 90,Premier League,Watford,41,14,34.15
-115,Serie A,Crotone,40,14,35.00
-109,Serie A,Chievo,39,14,35.90
-153,La Liga,Real Betis,39,14,35.90
-139,La Liga,Deportivo La Coruna,39,14,35.90
-125,Bundesliga,Mainz 05,35,14,40.00
-118,Bundesliga,Hamburger SV,35,14,40.00
+115,Serie A,Crotone,40,14,35
+109,Serie A,Chievo,39,14,35.9
+153,La Liga,Real Betis,39,14,35.9
+139,La Liga,Deportivo La Coruna,39,14,35.9
+125,Bundesliga,Mainz 05,35,14,40
+118,Bundesliga,Hamburger SV,35,14,40
 134,Bundesliga,FC Cologne,35,13,37.14
 132,Bundesliga,Eintracht Frankfurt,35,13,37.14
 101,Serie A,Genoa,39,12,30.77
@@ -86,28 +86,25 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 144,La Liga,Las Palmas,39,10,25.64
 223,La Liga,Girona,17,9,52.94
 225,Ligue 1,Strasbourg,19,9,47.37
-219,Premier League,Huddersfield,21,8,38.10
+219,Premier League,Huddersfield,21,8,38.1
 151,La Liga,Levante,17,8,47.06
 128,Bundesliga,Hannover 96,17,8,47.06
 224,Ligue 1,Amiens,19,8,42.11
 149,La Liga,Sporting Gijon,22,8,36.36
-91,Premier League,Hull,19,8,42.11
 86,Premier League,Newcastle United,21,7,33.33
 220,Premier League,Brighton,21,7,33.33
 172,Ligue 1,Troyes,19,7,36.84
 126,Bundesliga,Ingolstadt,18,7,38.89
-100,Serie A,Palermo,20,6,30.00
+100,Serie A,Palermo,20,6,30
 94,Serie A,Verona,19,6,31.58
 127,Bundesliga,Darmstadt,18,6,33.33
 133,Bundesliga,VfB Stuttgart,17,6,35.29
-108,Serie A,Empoli,20,6,30.00
+108,Serie A,Empoli,20,6,30
 179,Ligue 1,Lorient,19,6,31.58
 221,Serie A,SPAL 2013,19,5,26.32
 155,La Liga,Granada,22,4,18.18
 182,Ligue 1,Nancy,19,4,21.05
 157,La Liga,Osasuna,22,4,18.18
-114,Serie A,Pescara,20,4,20.00
-93,Premier League,Middlesbrough,19,3,15.79
+114,Serie A,Pescara,20,4,20
 162,Ligue 1,SC Bastia,18,3,16.67
-77,Premier League,Sunderland,19,2,10.53
 222,Serie A,Benevento,19,1,5.26
