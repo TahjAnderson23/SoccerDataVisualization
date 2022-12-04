@@ -51,8 +51,8 @@ d3.csv("./ProjectData/finalbubbleset.csv").then(
      
      // Size scale
      var size = d3.scaleLinear()
-          .domain([0, 15])
-          .range([1, 43])  // circle px wide
+          .domain([0, 400])
+          .range([1, 110])  // circle px wide
 
      // create a tooltip
 
