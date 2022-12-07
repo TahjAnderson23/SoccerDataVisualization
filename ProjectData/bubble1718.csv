@@ -13,13 +13,11 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 117,Bundesliga,Bayern Munich,35,29,82.86
 83,Premier League,Arsenal,41,28,68.29
 89,Premier League,Manchester United,40,27,67.5
-164,Ligue 1,Marseille,38,27,71.05
 87,Premier League,Liverpool,40,26,65
 106,Serie A,Inter,39,26,66.67
 72,Premier League,Everton,40,26,65
 96,Serie A,Lazio,38,26,68.42
 168,Ligue 1,Nantes,39,25,64.1
-178,Ligue 1,Lyon,38,25,65.79
 129,Bundesliga,Borussia Dortmund,35,25,71.43
 146,La Liga,Valencia,40,24,60
 170,Ligue 1,Nice,38,24,63.16
@@ -32,7 +30,7 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 110,Serie A,Fiorentina,39,22,56.41
 141,La Liga,Espanyol,39,22,56.41
 176,Ligue 1,Bordeaux,38,21,55.26
-130,Bundesliga,Borussia M.Gladbach,35,21,60
+130,Bundesliga,Borussia M'Gladbach,35,21,60
 102,Serie A,Sampdoria,38,21,55.26
 92,Premier League,Burnley,40,21,52.5
 124,Bundesliga,Schalke 04,35,20,57.14
@@ -45,7 +43,6 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 123,Bundesliga,Werder Bremen,35,18,51.43
 81,Premier League,West Ham,39,17,43.59
 165,Ligue 1,Caen,39,17,43.59
-158,La Liga,Alaves,39,17,43.59
 181,Ligue 1,Dijon,38,17,44.74
 167,Ligue 1,Angers,38,17,44.74
 104,Serie A,Sassuolo,39,17,43.59
@@ -78,7 +75,6 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 139,La Liga,Deportivo La Coruna,39,14,35.9
 125,Bundesliga,Mainz 05,35,14,40
 118,Bundesliga,Hamburger SV,35,14,40
-134,Bundesliga,FC Cologne,35,13,37.14
 132,Bundesliga,Eintracht Frankfurt,35,13,37.14
 101,Serie A,Genoa,39,12,30.77
 180,Ligue 1,Metz,39,12,30.77
@@ -90,21 +86,11 @@ TeamID,league,team,overallgamesplayed,wincount,percentwin
 151,La Liga,Levante,17,8,47.06
 128,Bundesliga,Hannover 96,17,8,47.06
 224,Ligue 1,Amiens,19,8,42.11
-149,La Liga,Sporting Gijon,22,8,36.36
 86,Premier League,Newcastle United,21,7,33.33
 220,Premier League,Brighton,21,7,33.33
 172,Ligue 1,Troyes,19,7,36.84
-126,Bundesliga,Ingolstadt,18,7,38.89
-100,Serie A,Palermo,20,6,30
 94,Serie A,Verona,19,6,31.58
-127,Bundesliga,Darmstadt,18,6,33.33
 133,Bundesliga,VfB Stuttgart,17,6,35.29
-108,Serie A,Empoli,20,6,30
-179,Ligue 1,Lorient,19,6,31.58
 221,Serie A,SPAL 2013,19,5,26.32
-155,La Liga,Granada,22,4,18.18
-182,Ligue 1,Nancy,19,4,21.05
-157,La Liga,Osasuna,22,4,18.18
-114,Serie A,Pescara,20,4,20
-162,Ligue 1,SC Bastia,18,3,16.67
+182,Ligue 1,Nantes,19,4,21.05
 222,Serie A,Benevento,19,1,5.26
