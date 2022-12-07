@@ -231,17 +231,17 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                           .on("click", function(event){
                               if(event.ctrlKey || event.metaKey){
                                   back_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   mid_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   front_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
@@ -268,17 +268,17 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                           .on("click", function(event){
                               if(event.ctrlKey || event.metaKey){
                                   goalie.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   mid_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   front_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
@@ -305,17 +305,17 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                             .on("click", function(event){
                               if(event.ctrlKey || event.metaKey){
                                   goalie.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   back_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
                                   front_line.on("click", function(){
-                                      connections.filter((d, i) => events_data[i+1].clean_roles != "Forward")
+                                      connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
                                       .transition()
                                       .attr("stroke-width", "0")
                                   })
@@ -342,17 +342,17 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                               .on("click", function(event){
                                   if(event.ctrlKey || event.metaKey){
                                       goalie.on("click", function(){
-                                          connections.filter((d, i) => events_data[i+1].clean_roles != "Goalkeeper")
+                                          connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
                                           .transition()
                                           .attr("stroke-width", "0")
                                       })
                                       back_line.on("click", function(){
-                                          connections.filter((d, i) => events_data[i+1].clean_roles != "Defender")
+                                          connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
                                           .transition()
                                           .attr("stroke-width", "0")
                                       })
                                       mid_line.on("click", function(){
-                                          connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                          connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
                                           .transition()
                                           .attr("stroke-width", "0")
                                       })
@@ -364,7 +364,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                   // if (d3.event.ctrlKey) {
                                   //     console.log("hello control was pressed")
                                       // mid_line.on("click", function(){
-                                      //     connections.filter((d, i) => events_data[i+1].clean_roles != "Midfielder")
+                                      //     connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
                                       //     .transition()
                                       //     .attr("stroke-width", "0")
                                   //     })
@@ -385,7 +385,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                 d3.select(this).style("stroke-width", "3")
                              })
                              .on("click", function(){
-                              connections.attr("stroke-width", ".01")
+                                createNetwork(fileName, networkNum)
                              })
                              
           var connections = svg.append("g")
@@ -394,19 +394,19 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                .data(events_data)
                                .enter()
                                .append("line")
-                               .filter((d,i)=> i + 1< events_data.length) //was 20000 and line width was .03
+                               .filter((d,i)=> +d.True_Index+1< events_data.length) //was 20000 and line width was .03
                                .filter((d,i) =>{
                                    return d.clean_roles != "IDK"
                                })
                                .filter((d, i) => {
-                                   return events_data[i+1].clean_roles != "IDK"
+                                   return events_data[(+d.True_Index)+1].clean_roles != "IDK"
                                })
                                .filter((d,i) => {
-                                   console.log("d", d)
-                                   console.log("i", i)
+                                   //console.log("d", d)
+                                   //console.log("i", i)
                                   if(i == 0 && d.eventName != "Pass")
                                       return
-                                  if(d.eventName == "Pass" || events_data[i - 1].eventName == "Pass"){
+                                  if(d.eventName == "Pass" || events_data[(+d.True_Index)-1].eventName == "Pass"){
                                       return d
                                   }
                                })
@@ -439,29 +439,29 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                   
                                })
                                .attr("x2", (d,i) => {
-                                  //console.log(events_data[i + 1].clean_roles)
+                                  //console.log(events_data[(+d.True_Index)+1].clean_roles)
                                   if(d.eventName == "Pass"){
-                                      //console.log(events_data[i + 1].clean_roles)
-                                      if(events_data[i + 1].clean_roles == "Goalkeeper"){
+                                      //console.log(events_data[(+d.True_Index)+1].clean_roles)
+                                      if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
                                           return goalie_x
                                       }
-                                      if(events_data[i + 1].clean_roles == "Defender"){
+                                      if(events_data[(+d.True_Index)+1].clean_roles == "Defender"){
                                           return back_x
                                       }
-                                      if(events_data[i + 1].clean_roles == "Midfielder"){
+                                      if(events_data[(+d.True_Index)+1].clean_roles == "Midfielder"){
                                           return mid_x
                                       }
-                                      if(events_data[i + 1].clean_roles == "Forward"){
+                                      if(events_data[(+d.True_Index)+1].clean_roles == "Forward"){
                                           return front_x
                                       }
-                                      console.log("inside x2", events_data[i+1].clean_roles)
+                                      console.log("inside x2", events_data[(+d.True_Index)+1].clean_roles)
                                       return dimensions.width + 1
                                       // d3.select(this).setAttribute("x1", 0)
                                   }
                                })
                                .attr("y2", (d,i) => {
                                   if(d.eventName == "Pass"){
-                                      if(events_data[i + 1].clean_roles == "Goalkeeper"){
+                                      if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
                                           return (dimensions.height + dimensions.margin.top) / 2
                                       }
                                       return yScale(d.end_y)
@@ -523,7 +523,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                               
                            })
                           .attr("x2", (d,i) => {
-                              //console.log(events_data[i + 1].clean_roles)
+                              //console.log(events_data[(+d.True_Index)+1].clean_roles)
                               return goal_x
                               
                            })

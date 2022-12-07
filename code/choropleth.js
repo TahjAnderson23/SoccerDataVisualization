@@ -109,7 +109,7 @@ d3.csv("./ProjectData/shots.csv").then(
                     .range([0, dimensions.width])
         var xScaleP = d3.scaleLinear()
                     .domain([1-16.5/105, 1])
-                    .range([0, 1])
+                    .range([.5, 1])
 
         var yScale = d3.scaleLinear()
                      .domain([1, 0])
