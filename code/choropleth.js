@@ -412,16 +412,16 @@ d3.csv("./ProjectData/shots.csv").then(
             .style("width", dimensions.width)
             .style("height", dimensions.height)
 
-            var text2 = svg2.append('text')
-            .attr("id", 'topbartext2')
-            .attr("x", dimensions.width)
-            .attr("y", 20)
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("text-anchor", "end") //makes sure it does not go outside the svg
-            .attr("font-family", "sans-serif")
-            .style("font-size", 10)
-            .text("Shots in Rectangle: 0")
+            // var text2 = svg2.append('text')
+            // .attr("id", 'topbartext2')
+            // .attr("x", dimensions.width)
+            // .attr("y", 20)
+            // .attr("dx", "-.8em")
+            // .attr("dy", ".15em")
+            // .attr("text-anchor", "end") //makes sure it does not go outside the svg
+            // .attr("font-family", "sans-serif")
+            // .style("font-size", 10)
+            // .text("Shots in Rectangle: 0")
 
             createDisplay2 = function(rectangles){
                 svg2.select("#display2").remove()
