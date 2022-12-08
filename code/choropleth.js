@@ -155,14 +155,14 @@ d3.csv("./ProjectData/shots.csv").then(
                 }
                 if(d.shotResult == "Goal"){
                     rectangles[whichOne] = [whichOne, 1, 1, penaltyBox, whichOneP] //which one, one goal made, one shot, whether or not in penalty box, which one for rotate
-                    rectangles
-
                 }
                 else if(d.shotResult != "OwnGoal"){ //filters out own goals
                     rectangles[whichOne] = [whichOne, 0, 1, penaltyBox, whichOneP] //which one, zero goals made, one shot, whether or not in penalty box, which one for rotate
                 }
             }
             else{
+                if(penaltyBox)
+                    rectangles[whichOne][3] = true
                 if(d.shotResult == "Goal"){
                     rectangles[whichOne][1]++;
                 }
@@ -236,24 +236,24 @@ d3.csv("./ProjectData/shots.csv").then(
                                     return colorScaleSmall(d[1]/d[2])
                                 return colorScaleBig(d[1]/d[2])
                             })
-                            .attr("stroke", "#bbb")
-                            .attr("stroke-width", 1)
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 0)
                             .on("mouseover", function(d, i){
                                 d3.select(this)
-                                .attr("stroke", "black")
+                                .attr("stroke-width", "1")
                                 // console.log("this", d3.select(this)._groups[0][0].__data__[0])
                                 // console.log(d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]])//._groups[0][i].attr("stroke", "black")
-                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke-width", "1") //what if i gave every rect a unique id
                                 text
-                                .text("Percentage and Number of Shots in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "% and " +i[2] + " shots")
+                                .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%  Number of Shots in Rectangle: " + i[2])
                                 
                                 
 
                             })
                             .on("mouseout", function(){
                                 d3.select(this)
-                                .attr("stroke", "#bbb")
-                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
+                                .attr("stroke-width", "0")
+                                d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke-width", "0") //what if i gave every rect a unique id
 
                             })
                             .append("text")
@@ -270,20 +270,57 @@ d3.csv("./ProjectData/shots.csv").then(
                     .attr("text-anchor", "end") //makes sure it does not go outside the svg
                     .attr("font-family", "sans-serif")
                     .style("font-size", 10)
-                    .text("Percentage in Rectangle: 0%")
+                    .text("Percentage in Rectangle: 0%  Number of Shots in Rectangle: 0")
 
 
+        var penaltyClicked = function(){
+            if(document.getElementById("penalty-box").value == "Penalty Box"){
+                document.getElementById("penalty-box").value="Whole Field";
+                d3.selectAll(".aggregated")
+                .filter(d => {
+                    if(d != undefined){
+                        return d[3] == false;
+                    }
+                    })
+                .transition().duration(100)
+                .attr("width", 0)
+                d3.selectAll(".aggregated")
+                .filter(d => {
+                    if(d != undefined){
+                        return d[3] == true;
+                    }
+                    })
+                .transition()
+                .attr('transform', 'translate(-195,670)rotate(-90,200,112)scale(2.8 2)')
 
-        d3.select("#penalty-box").on('click', function(){
-            d3.selectAll(".aggregated")
-              .filter(d => {
-                  if(d != undefined){
-                    return d[3] == false;
-                  }
-                })
-              .transition().duration(100)
-              .attr("width", 0)
-            // xScale
+                d3.selectAll(".aggregated2")
+                .filter(d => {
+                    if(d != undefined){
+                        return d[3] == false;
+                    }
+                    })
+                .transition().duration(100)
+                .attr("width", 0)
+                d3.selectAll(".aggregated2")
+                .filter(d => {
+                    if(d != undefined){
+                        return d[3] == true;
+                    }
+                    })
+                .transition()
+                .attr('transform', 'translate(-195,670)rotate(-90,200,112)scale(2.8 2)')    
+            }        
+            else{
+                document.getElementById("penalty-box").value="Penalty Box";
+                createDisplay(rectangles)
+                createDisplay2(rectangles)
+            }
+        }
+        d3.select("#penalty-box").on('click', penaltyClicked)
+            
+            
+              
+              // xScale
             //     .domain([.1, .9]) THIS CAUSES ERRORS...
             //current idea: change numVertical and numHorizontal depending on d3.extent(...)
 
@@ -320,15 +357,8 @@ d3.csv("./ProjectData/shots.csv").then(
             //   .attr("y", d => yScale2(Math.floor(d[4]/numHorizontal)/numVertical) - dimensions.height/numVertical)
             //   .attr("width", xScale(1.0/numHorizontal))
             //   .attr("height", d => dimensions.height - yScale(1.0/numHorizontal)) //HAS TO DO SOMETHING WITH THIS, CHANGING YSCALE AFFECTED THIS THINGS DOMAIN TOO!!!
-            d3.selectAll(".aggregated")
-              .filter(d => {
-                  if(d != undefined){
-                    return d[3] == true;
-                  }
-                })
-              .transition()
-              .attr('transform', 'translate(-145,670)rotate(-90,200,112)scale(2.8 2)')
-              .attr("stroke-width", .1)
+
+            //   .attr("stroke-width", .1)
         //     //abcd
         //     d3.selectAll(".aggregated2")
         //     .filter(d => {
@@ -363,7 +393,7 @@ d3.csv("./ProjectData/shots.csv").then(
         //       .attr("height", dimensions.height - yScale(1.0/numHorizontalP))
         //       //abcd
 
-            })
+            
 
             //BELOW IS COMMENTED CODE FOR CIRCULAR FISHEYE, DISTORTS TOO WEIRDLY...
             /*var fisheye = d3.fisheye.circular()
@@ -439,20 +469,21 @@ d3.csv("./ProjectData/shots.csv").then(
                                 .attr("width", xScale(1.0/numVertical))
                                 .attr("height", dimensions.height - yScale(1.0/numHorizontal))
                                 .attr("fill", d => totalColorScale(d[2]))
-                                .attr("stroke", "#bbb")
-                                .attr("stroke-width", 1)
+                                .attr("stroke", "black")
+                                .attr("stroke-width", 0)
+                                //.attr("stroke-width", 1)
                                 .on("mouseover", function(d, i){
                                     d3.select(this)
-                                    .attr("stroke", "black")
-                                    d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
+                                    .attr("stroke-width", "1")
+                                    d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke-width", "1") //what if i gave every rect a unique id
                                     text
-                                    .text("Percentage and Number of Shots in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "% and " +i[2] + " shots")
+                                    .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%  Number of Shots in Rectangle: " + i[2])
     
                                 })
                                 .on("mouseout", function(){
                                     d3.select(this)
-                                    .attr("stroke", "#bbb")
-                                    d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "#bbb") //what if i gave every rect a unique id
+                                    .attr("stroke-width", "0")
+                                    d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke-width", "0") //what if i gave every rect a unique id
                                 })
                                 .append("text")
                                 .text(d => d[0])
@@ -464,6 +495,10 @@ d3.csv("./ProjectData/shots.csv").then(
                 calcRectangles()
                 createDisplay(rectangles)
                 createDisplay2(rectangles)
+                if(document.getElementById("penalty-box").value == "Whole Field"){
+                    document.getElementById("penalty-box").value="Penalty Box"
+                    penaltyClicked()
+                }
             })
                 
             d3.select("#numHorizontal").on("change", function(){
@@ -471,6 +506,10 @@ d3.csv("./ProjectData/shots.csv").then(
                 calcRectangles()
                 createDisplay(rectangles)
                 createDisplay2(rectangles)
+                if(document.getElementById("penalty-box").value == "Whole Field"){
+                    document.getElementById("penalty-box").value="Penalty Box"
+                    penaltyClicked()
+                }
             })
     }
 
