@@ -10,61 +10,37 @@
   <body>
 
     <h1>Soccer Data Visualization</h1>
-
-    <p>By: Elena Le, Matthew Rundle, Tahj Anderson :)</p>
-
-    <div>
-        <h2>Overview</h2>
-        <p>Soccer is one of the most popular sports in the world, bringing in millions of fans yearly to stadiums, sports bars, and tv screens. Although soccer is seemingly less intricate than other sports, there are countless intricacies within it. With eleven people on a squad, the soccer pitch transforms into a grid with players being the nodes on the coordinate system and completed passes becoming the links. Shots taken become a position-based statistic intertwined with play scenarios and player skill levels. Viewing the beautiful game through an analytic lens leads us to a pivotal question. In the game of soccer, can we find patterns in soccer match data?</p>
-    </div>
     
-    <div>
-        <h3>Visualization 1: Bubble Distribution of Winning Percentages</h3>
-    </div>
-    <svg id="bubble"></svg>
 
     <div class = "row"> 
       <div class = "bottom-vis">
-          <h3>Visualization 2: Passing Networks </h3>
-          <svg id="network1"></svg>
-          <svg id="network2"></svg>
+          <h3>Bubble Distribution of Winning Percentages</h3>
+          <svg id="bubble"></svg>
+          <h3>Choropleth Shots Made</h3>
+          <svg id="choropleth"></svg>
+          <svg id="choropleth2"></svg>
+          <p></p>
+          <text id="shotsText"></text>
+          <p></p>
+          <input id="numVertical" type=number min=1 max=200 value=50>
+          <input id="numHorizontal" type=number min=1 max=200 value=50>
+          <button id="penalty-box">Penalty Box</button>
       </div>
       
       <div class="bottom-vis">
-        <h3>Visualization 3: Choropleth Shots Made</h3>
-        <svg id="choropleth"></svg>
-        <svg id="choropleth2"></svg>
-        <p></p> 
-        <input id="numVertical" type=number min=1 max=100 value=60>
-        <input id="numHorizontal" type=number min=1 max=100 value=25>
-        <button id="penalty-box">Penalty Box</button>
+        <h3>Passing Networks </h3>
+        <svg id="network1"></svg>
+        <svg id="network2"></svg>
       </div>
-  </div>
-
-
-  <div>
-    <menu>
-      <label for = "league">Choose League</label>
-      <select name = "league" id = "league">
-        <option value = "League all">All</option>
-        <option value = "League 1">Premier League</option>
-        <option value = "League 2">Serie A</option>
-        <option value = "League 3">Bundesliga</option>
-        <option value = "League 4">La Liga</option>
-        <option value = "League 5">Ligue 1</option>
-      </select>
-      <label for = "team">Choose Team</label>
-      <select name = "team" id = "team">
-        <option value = "team all">All</option>
-      </select>
-    </menu>
-    <div class="slidecontainer">
-      <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-    </div>
   </div>
     <script src="code/bubble.js"></script>
     <script src="code/network.js"></script>
     <script src="code/choropleth.js"></script>
+
+    <div>
+      <h2>Overview</h2>
+      <p>Soccer is one of the most popular sports in the world, bringing in millions of fans yearly to stadiums, sports bars, and tv screens. Although soccer is seemingly less intricate than other sports, there are countless intricacies within it. With eleven people on a squad, the soccer pitch transforms into a grid with players being the nodes on the coordinate system and completed passes becoming the links. Shots taken become a position-based statistic intertwined with play scenarios and player skill levels. Viewing the beautiful game through an analytic lens leads us to a pivotal question. In the game of soccer, can we find patterns in soccer match data?</p>
+  </div>
   </body>
 </html>
 

@@ -3,7 +3,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      function(data) {
      // set the dimensions
      var dimensions = {
-          width: 1000,
+          width: 600,
           height: 300
       }
 
@@ -19,7 +19,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      // x scale
      var x = d3.scaleOrdinal()
      .domain(keys)
-     .range([100, 200, 300, 400, 500])
+     .range([5, 105, 205, 305, 405])
 
      // Color palette 
      var color = d3.scaleOrdinal()
@@ -27,25 +27,25 @@ d3.csv("./ProjectData/bubble1718.csv").then(
           .range(d3.schemeSet2);
 
      //get the dots for legend     
-     svg.selectAll("mydots")
-     .data(keys)
-     .enter()
-     .append("circle")
-     .attr("cx", 850)
-     .attr("cy", function(d,i){ return 100 + i*25}) 
-     .attr("r", 7)
-     .style("fill", function(d){ return color(d)})     
+    //  svg.selectAll("mydots")
+    //  .data(keys)
+    //  .enter()
+    //  .append("circle")
+    //  .attr("cx", 500)
+    //  .attr("cy", function(d,i){ return 100 + i*25}) 
+    //  .attr("r", 7)
+    //  .style("fill", function(d){ return color(d)})     
      
      // Add one dot in the legend for each name.
      svg.selectAll("mylabels")
      .data(keys)
      .enter()
      .append("text")
-     .attr("x", 900)
-     .attr("y", function(d,i){ return 100 + i*25}) 
+     .attr("x", function(d,i){ return 75 + i*110})
+     .attr("y", 12) 
      .style("fill", function(d){ return color(d)})
      .text(function(d){ return d})
-     .attr("text-anchor", "left")
+     .attr("text-anchor", "middle")
      .style("alignment-baseline", "middle")
 
      
@@ -68,29 +68,29 @@ d3.csv("./ProjectData/bubble1718.csv").then(
 
      var hoverText = svg.append("text")
      .attr("id", 'topbartext')
-     .attr("x", dimensions.width)
-     .attr("y", 70)
+     .attr("x", 25)
+     .attr("y", 290)
      .attr("dx", "-.8em")
      .attr("dy", ".15em")
-     .attr("text-anchor", "end") 
+     .attr("text-anchor", "start") 
      .attr("font-family", "sans-serif")
 
-     var text2 = svg.append('text')
+     var text2 = d3.select("#network1").append('text')
      .attr("id", 'topbartext')
-     .attr("x", dimensions.width)
-     .attr("y", 30)
+     .attr("x", 620/2)
+     .attr("y", 15)
      .attr("dx", "-.8em")
      .attr("dy", ".15em")
-     .attr("text-anchor", "end") 
+     .attr("text-anchor", "middle") 
      .attr("font-family", "sans-serif")
 
-     var text3 = svg.append("text")
+     var text3 = d3.select("#network2").append('text')
      .attr("id", 'topbartext')
-     .attr("x", dimensions.width)
-     .attr("y", 50)
+     .attr("x", 620/2)
+     .attr("y", 15)
      .attr("dx", "-.8em")
      .attr("dy", ".15em")
-     .attr("text-anchor", "end") 
+     .attr("text-anchor", "middle") 
      .attr("font-family", "sans-serif")
 
      var mouseover = function(event, d) {
@@ -193,8 +193,8 @@ d3.csv("./ProjectData/bubble1718.csv").then(
           d3.csv(fileName).then(
           function(events_data){
                var dimensions = {
-              width:500,
-              height: 250,
+              width:650,
+              height: 305,
               margin : {
                   top: 30
               }
@@ -246,10 +246,12 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                       .attr("stroke-width", "0")
                                   })
                               }
-                              connections.attr("stroke-width", ".01")
+                              connections.attr("stroke-width", ".02")
                                   .filter(d => d.clean_roles != "Goalkeeper") 
                                   .transition()
                                   .attr("stroke-width", "0")
+                              shots.transition()
+                                   .attr("stroke-width", "0")
                           })
           var back_line = svg.append("g")
                           .append('line')
@@ -283,10 +285,12 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                       .attr("stroke-width", "0")
                                   })
                               }
-                              connections.attr("stroke-width", ".01")
+                              connections.attr("stroke-width", ".02")
                                   .filter(d => d.clean_roles != "Defender") 
                                   .transition()
                                   .attr("stroke-width", "0")
+                                shots.transition()
+                                     .attr("stroke-width", "0")
                           })
           var mid_line = svg.append("g")
                             .append('line')
@@ -320,10 +324,12 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                       .attr("stroke-width", "0")
                                   })
                               }
-                              connections.attr("stroke-width", ".01")
+                              connections.attr("stroke-width", ".02")
                                   .filter(d => d.clean_roles != "Midfielder") 
                                   .transition()
                                   .attr("stroke-width", "0")
+                              shots.transition()
+                                   .attr("stroke-width", "0")
                           })
           var front_line = svg.append("g")
                               .append('line')
@@ -340,6 +346,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                   d3.select(this).style("stroke-width", "3")
                               })
                               .on("click", function(event){
+                                shots.attr("stroke-width", "0.02")
                                   if(event.ctrlKey || event.metaKey){
                                       goalie.on("click", function(){
                                           connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
@@ -356,8 +363,10 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                           .transition()
                                           .attr("stroke-width", "0")
                                       })
+                                      shots.transition()
+                                      .attr("stroke-width", "0")
                                   }
-                                  connections.attr("stroke-width", ".01")
+                                  connections.attr("stroke-width", "0.02")
                                       .filter(d => d.clean_roles != "Forward") 
                                       .transition()
                                       .attr("stroke-width", "0")
@@ -387,6 +396,48 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                              .on("click", function(){
                                 createNetwork(fileName, networkNum)
                              })
+         var top_border = svg.append("g")
+                                 .append('line')
+                                 .attr('x1', goal_x)
+                                 .attr('x2', goalie_x)
+                                 .attr('y1', dimensions.margin.top)
+                                 .attr('y2', dimensions.margin.top)
+                                 .style("stroke", "black")
+                                 .style("stroke-width", "2")
+        var bottom_border = svg.append("g")
+                               .append('line')
+                               .attr('x1', goal_x)
+                               .attr('x2', goalie_x)
+                             .attr('y1', dimensions.height)
+                             .attr('y2', dimensions.height)
+                             .style("stroke", "black")
+                             .style("stroke-width", "2")
+         var side1_border = svg.append("g")
+                              .append('line')
+                              .attr('x1', goal_x)
+                              .attr('x2', goal_x)
+                              .attr('y1', dimensions.margin.top)
+                              .attr('y2', dimensions.height)
+                              .style("stroke", "black")
+                              .style("stroke-width", "2")
+         var back_border = svg.append("g")
+                              .append('line')
+                              .attr('x1', goalie_x)
+                              .attr('x2', goalie_x)
+                              .attr('y1', dimensions.margin.top)
+                              .attr('y2', dimensions.height)
+                              .style("stroke", "black")
+                              .style("stroke-width", "2")
+         var circle_border = svg.append("g")
+                                .append('circle')
+                                .attr('cx', dimensions.width / 2)
+                                .attr('cy', (dimensions.height + dimensions.margin.top) / 2)
+                                .attr('r', 40)
+                                .style("stroke", "black")
+                                .style("stroke-width", "2")
+                                .style("fill", "#bbbbbb40")
+                                //.style("opacity", 0)
+
                              
           var connections = svg.append("g")
                                .attr("id", "networkElement"+networkNum)
@@ -431,9 +482,9 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                })
                                .attr("y1", (d,i) =>{
                                   if(d.eventName == "Pass"){
-                                      if(d.clean_roles == "Goalkeeper"){
-                                          return (dimensions.height + dimensions.margin.top) / 2
-                                      }
+                                    //   if(d.clean_roles == "Goalkeeper"){
+                                    //       return (dimensions.height + dimensions.margin.top) / 2
+                                    //   }
                                       return yScale(d.start_y)
                                   }
                                   
@@ -461,9 +512,9 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                })
                                .attr("y2", (d,i) => {
                                   if(d.eventName == "Pass"){
-                                      if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
-                                          return (dimensions.height + dimensions.margin.top) / 2
-                                      }
+                                    //   if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
+                                    //       return (dimensions.height + dimensions.margin.top) / 2
+                                    //   }
                                       return yScale(d.end_y)
                                   }
                                   
@@ -485,7 +536,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                       }
                                   }
                                })
-                               .attr("stroke-width", "0.01")
+                               .attr("stroke-width", "0.02")
      
           var shots = svg.append("g")
                          .attr("id", "networkElement"+networkNum)
@@ -552,6 +603,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      
                               
      })}
-     createNetwork("./ProjectData/Premier League/Arsenal_event_data.csv", 1)
-     createNetwork("./ProjectData/Premier League/Chelsea_event_data.csv", 2)
+    //  createNetwork("./ProjectData/Premier League/Arsenal_event_data.csv", 1)
+    //  createNetwork("./ProjectData/Premier League/Chelsea_event_data.csv", 2)
 })

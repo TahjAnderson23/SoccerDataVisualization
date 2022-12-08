@@ -92,8 +92,8 @@ d3.csv("./ProjectData/shots.csv").then(
         // console.log(shotsData[0])
         
         var dimensions = {
-            width: 1.5*200, 
-            height: 1.5*(68/105 * 200) + 30,
+            width: 1.7*200, 
+            height: 1.7*(68/105 * 200) + 30,
             margin: {
                 top: 30
             }
@@ -245,9 +245,9 @@ d3.csv("./ProjectData/shots.csv").then(
                                 // console.log(d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]])//._groups[0][i].attr("stroke", "black")
                                 d3.selectAll(".aggregated2")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
                                 text
-                                .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
-                                text2
-                                .text("Shots in Rectangle: " + i[2])
+                                .text("Percentage and Number of Shots in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "% and " +i[2] + " shots")
+                                
+                                
 
                             })
                             .on("mouseout", function(){
@@ -261,12 +261,12 @@ d3.csv("./ProjectData/shots.csv").then(
         }
         createDisplay(rectangles)
 
-        var text = svg.append('text')
-                    .attr("id", 'topbartext')
-                    .attr("x", dimensions.width)
-                    .attr("y", 20)
-                    .attr("dx", "-.8em")
-                    .attr("dy", ".15em")
+        var text = d3.select('#shotsText')
+                    // .attr("id", 'topbartext')
+                    // .attr("x", dimensions.width)
+                    // .attr("y", 20)
+                    // .attr("dx", "-.8em")
+                    // .attr("dy", ".15em")
                     .attr("text-anchor", "end") //makes sure it does not go outside the svg
                     .attr("font-family", "sans-serif")
                     .style("font-size", 10)
@@ -281,7 +281,7 @@ d3.csv("./ProjectData/shots.csv").then(
                     return d[3] == false;
                   }
                 })
-              .transition().duration(1000)
+              .transition().duration(100)
               .attr("width", 0)
             // xScale
             //     .domain([.1, .9]) THIS CAUSES ERRORS...
@@ -326,8 +326,8 @@ d3.csv("./ProjectData/shots.csv").then(
                     return d[3] == true;
                   }
                 })
-              .transition().duration(5000)
-              .attr('transform', 'translate(-150,560)rotate(-90,200,112)scale(2.8 2)')
+              .transition()
+              .attr('transform', 'translate(-145,670)rotate(-90,200,112)scale(2.8 2)')
               .attr("stroke-width", .1)
         //     //abcd
         //     d3.selectAll(".aggregated2")
@@ -446,9 +446,7 @@ d3.csv("./ProjectData/shots.csv").then(
                                     .attr("stroke", "black")
                                     d3.selectAll(".aggregated")._groups[0][d3.select(this)._groups[0][0].__data__[0]].setAttribute("stroke", "black") //what if i gave every rect a unique id
                                     text
-                                    .text("Percentage in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "%")
-                                    text2
-                                    .text("Shots in Rectangle: " + i[2])
+                                    .text("Percentage and Number of Shots in Rectangle: " + 100*(Math.round(i[1]/i[2] * 100) / 100).toFixed(2) + "% and " +i[2] + " shots")
     
                                 })
                                 .on("mouseout", function(){
