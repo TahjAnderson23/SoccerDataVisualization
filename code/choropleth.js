@@ -175,7 +175,7 @@ d3.csv("./ProjectData/shots.csv").then(
         
         
                            //WHAT IF LESS THAN .1 HAD A DIFFERENT COLOR SCALE THAN >.1......
-        var colorScale6 = d3.scaleLinear() //BEST SO FAR
+        var colorLog = d3.scaleLinear() //BEST SO FAR
                             .domain([0, .1, 1]) //can change middle number...
                             .range(["red", "green"])
         
@@ -287,25 +287,25 @@ d3.csv("./ProjectData/shots.csv").then(
             //     .domain([.1, .9]) THIS CAUSES ERRORS...
             //current idea: change numVertical and numHorizontal depending on d3.extent(...)
 
-            var yScale2 = d3.scaleLinear()
-              .domain([1, 1-16.5/105])
-              .range([0, dimensions.height])
+            // var yScale2 = d3.scaleLinear()
+            //   .domain([1, 1-16.5/105])
+            //   .range([0, dimensions.height])
 
-            console.log("numV", numVerticalP)
-            console.log("numH", numHorizontalP)
+            // console.log("numV", numVerticalP)
+            // console.log("numH", numHorizontalP)
             
-            d3.selectAll(".aggregated") //WHATS WRONG WITH THIS IS D[4] IS WRONG... made it separate but rounding errors cause slightly off numbering of squares
-                .filter(d => {
-                    if(d != undefined && d[3]){
-                        console.log(d)
-                        return d;
-                    }
-                })
-                .transition().duration(10000)
-                .attr("x", d => xScale(d[4]%numVerticalP/numVerticalP))
-                .attr("y", d => yScale(Math.floor(d[4]/numVerticalP)/numHorizontalP) - dimensions.height/numHorizontalP)
-                .attr("width", xScale(1.0/numVerticalP))
-                .attr("height", dimensions.height - yScale(1.0/numHorizontalP))
+            // d3.selectAll(".aggregated") //WHATS WRONG WITH THIS IS D[4] IS WRONG... made it separate but rounding errors cause slightly off numbering of squares
+            //     .filter(d => {
+            //         if(d != undefined && d[3]){
+            //             console.log(d)
+            //             return d;
+            //         }
+            //     })
+            //     .transition().duration(10000)
+            //     .attr("x", d => xScale(d[4]%numVerticalP/numVerticalP))
+            //     .attr("y", d => yScale(Math.floor(d[4]/numVerticalP)/numHorizontalP) - dimensions.height/numHorizontalP)
+            //     .attr("width", xScale(1.0/numVerticalP))
+            //     .attr("height", dimensions.height - yScale(1.0/numHorizontalP))
             // d3.selectAll(".aggregated")
             //     .filter(d => {
             //         if(d != undefined && d[3])
@@ -320,14 +320,48 @@ d3.csv("./ProjectData/shots.csv").then(
             //   .attr("y", d => yScale2(Math.floor(d[4]/numHorizontal)/numVertical) - dimensions.height/numVertical)
             //   .attr("width", xScale(1.0/numHorizontal))
             //   .attr("height", d => dimensions.height - yScale(1.0/numHorizontal)) //HAS TO DO SOMETHING WITH THIS, CHANGING YSCALE AFFECTED THIS THINGS DOMAIN TOO!!!
-            // d3.selectAll(".aggregated")
-            //   .filter(d => {
-            //       if(d != undefined){
-            //         return d[3] == true;
-            //       }
-            //     })
-            //   .transition().duration(3000)
-            //   .attr('transform', 'translate(100,400)rotate(-90)scale(.5 1)')
+            d3.selectAll(".aggregated")
+              .filter(d => {
+                  if(d != undefined){
+                    return d[3] == true;
+                  }
+                })
+              .transition().duration(5000)
+              .attr('transform', 'translate(-150,560)rotate(-90,200,112)scale(2.8 2)')
+              .attr("stroke-width", .1)
+        //     //abcd
+        //     d3.selectAll(".aggregated2")
+        //     .filter(d => {
+        //         if(d != undefined){
+        //           return d[3] == false;
+        //         }
+        //       })
+        //     .transition().duration(1000)
+        //     .attr("width", 0)
+        //   // xScale
+        //   //     .domain([.1, .9]) THIS CAUSES ERRORS...
+        //   //current idea: change numVertical and numHorizontal depending on d3.extent(...)
+
+        //   var yScale2 = d3.scaleLinear()
+        //     .domain([1, 1-16.5/105])
+        //     .range([0, dimensions.height])
+
+        //   console.log("numV", numVerticalP)
+        //   console.log("numH", numHorizontalP)
+          
+        //   d3.selectAll(".aggregated2") //WHATS WRONG WITH THIS IS D[4] IS WRONG... made it separate but rounding errors cause slightly off numbering of squares
+        //       .filter(d => {
+        //           if(d != undefined && d[3]){
+        //               console.log(d)
+        //               return d;
+        //           }
+        //       })
+        //       .transition().duration(10000)
+        //       .attr("x", d => xScale(d[4]%numVerticalP/numVerticalP))
+        //       .attr("y", d => yScale(Math.floor(d[4]/numVerticalP)/numHorizontalP) - dimensions.height/numHorizontalP)
+        //       .attr("width", xScale(1.0/numVerticalP))
+        //       .attr("height", dimensions.height - yScale(1.0/numHorizontalP))
+        //       //abcd
 
             })
 
