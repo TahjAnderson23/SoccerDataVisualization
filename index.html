@@ -14,24 +14,28 @@
 
     <div class = "row"> 
       <div class = "bottom-vis">
-          <h3>Bubble Distribution of Winning Percentages</h3>
+          <h3>Bubble Distribution of European Soccer Team Winning Percentages (2017-2018)
+          <div style="font-size: 14px">Click up to two teams (bubbles) at a time. Legend to the right represents teams with a certain win percentage.</div></h3>
           <svg id="bubble"></svg>
-          <h3>Choropleth Shots Made</h3>
+          <svg id="bubbleLegend"></svg>
+          <h3>Choropleth Shots Made in European Leagues from 2014 to 2020</h3>
           <svg id="choropleth"></svg>
           <svg id="choropleth2"></svg>
-          <p></p>
+          <p>
           <text id="shotsText"></text>
-          <p></p>
-          <label>Vertical Cuts: </label><input id="numVertical" type=number min=1 max=300 value=100>
-          <label>Horizontal Cuts: </label><input id="numHorizontal" type=number min=1 max=300 value=80>
+          <p>
+          <label>Vertical Cuts: </label><input id="numVertical" type=number min=1 max=300 value=150>
+          <label>Horizontal Cuts: </label><input id="numHorizontal" type=number min=1 max=300 value=100>
           <input type="button" value="Penalty Box" id="penalty-box"></input>
+          <h3><div style="font-size: 14px">Vertical/Horizontal cuts gives the number of vertical/horizontal divisions on the field (larger numbers give finer rectangles). Darker green/red on the left represents higher/lower percentages of shots made.  Darker green on the right represents more total shots.</div></h3></p></p>
       </div>
       
       <div class="bottom-vis2">
-        <h3>Passing Networks </h3>
+        <h3>Passing Networks for Teams Selected
+          <div style="font-size: 14px">Click on position circles to select source. Control/Command click to select source and target. Click + drag on lines to create slider for passes from a desired portion of the field.  Click + drag line on the right filters all postions based on portion of field.</div></h3>
         <svg id="network1"></svg>
         <svg id="brush"></svg>
-        <svg id="selections"><g ref={brushRef}></g></svg>
+        <svg id="selections"></svg>
         <svg id="network2"></svg>
       </div>
   </div>
