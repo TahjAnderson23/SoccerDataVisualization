@@ -6,6 +6,11 @@ d3.csv("./ProjectData/bubble1718.csv").then(
           width: 600,
           height: 300
       }
+
+      var svgLegend = d3.select("#bubbleLegend")
+                        .style("width", 70)
+                        .style("height", dimensions.height)
+
      // append the svg object 
      var svg = d3.select("#bubble")
           .style("width", dimensions.width)
@@ -23,17 +28,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      // Color palette 
      var color = d3.scaleOrdinal()
           .domain(keys)
-          .range(d3.schemeSet2);
-
-     //get the dots for legend     
-    //  svg.selectAll("mydots")
-    //  .data(keys)
-    //  .enter()
-    //  .append("circle")
-    //  .attr("cx", 500)
-    //  .attr("cy", function(d,i){ return 100 + i*25}) 
-    //  .attr("r", 7)
-    //  .style("fill", function(d){ return color(d)})     
+          .range(d3.schemeSet2);   
      
      // Add one dot in the legend for each name.
      svg.selectAll("mylabels")
@@ -52,9 +47,72 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      var size = d3.scaleLinear()
           .domain([0, 400])
           .range([1, 110])  // circle px wide
+    
+    var circle25 = svgLegend.append("circle")
+          .attr("cx", 29)
+          .attr("cy", 40)
+          .attr("r", size(25))
+          .attr("fill", "grey")
+          .attr("stroke", "black")
+          .style("stroke-width", 1)
+    
+    var text25 = svgLegend.append("text")
+            .attr("x", 29)
+            .attr("y", 25)
+            .attr("text-anchor", "middle") 
+            .attr("font-family", "sans-serif")
+            .style("font", "17px times")
+            .text("25%")
+        
+    var circle50 = svgLegend.append("circle")
+          .attr("cx", 29)
+          .attr("cy", 90)
+          .attr("r", size(50))
+          .attr("fill", "grey")
+          .attr("stroke", "black")
+          .style("stroke-width", 1)
+
+    var text50 = svgLegend.append("text")
+          .attr("x", 29)
+          .attr("y", 70)
+          .attr("text-anchor", "middle") 
+          .attr("font-family", "sans-serif")
+          .style("font", "17px times")
+          .text("50%")
+
+    var circle75 = svgLegend.append("circle")
+          .attr("cx", 29)
+          .attr("cy", 155)
+          .attr("r", size(75))
+          .attr("fill", "grey")
+          .attr("stroke", "black")
+          .style("stroke-width", 1)
+
+    var text75 = svgLegend.append("text")
+          .attr("x", 29)
+          .attr("y", 125)
+          .attr("text-anchor", "middle") 
+          .attr("font-family", "sans-serif")
+          .style("font", "17px times")
+          .text("75%")
+        
+    var circle100 = svgLegend.append("circle")
+          .attr("cx", 29)
+          .attr("cy", 240)
+          .attr("r", size(100))
+          .attr("fill", "grey")
+          .attr("stroke", "black")
+          .style("stroke-width", 1)
+
+    var text100 = svgLegend.append("text")
+          .attr("x", 29)
+          .attr("y", 205)
+          .attr("text-anchor", "middle") 
+          .attr("font-family", "sans-serif")
+          .style("font", "17px times")
+          .text("100%")
 
      // create a tooltip
-
      var Tooltip = d3.select("#bubble")
      .append("div")
      .style("opacity", 0)
@@ -121,6 +179,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
             .style("stroke-width", 3)
 
           var fileName = "./ProjectData/" + d.league + "/" + d.team + "_event_data.csv"
+          console.log(fileName)
           if(first)
                createNetwork(fileName, 1)
           else
@@ -186,7 +245,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
      }
 
      //function to create network
-     var connections1, connections2, shots1, shot2, events_data1, events_data2, file1
+     var connections1, connections2, shots1, shots2, events_data1, events_data2, file1
      createNetwork = function(fileName, networkNum){
           //console.log(events_data)
           d3.selectAll("#networkElement" + networkNum).remove()
@@ -226,39 +285,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                           .attr('cy', (dimensions.height + dimensions.margin.top) /2)
                           .attr('r', 5)
                           .style('fill', 'black')
-                        //   .on("mouseover", function(){
-                        //       d3.select(this).attr("r", 7)
-                        //   })
-                        //   .on("mouseout", function(){
-                        //       d3.select(this).attr("r", 5)
-                        //   })
-                        //   .on("click", function(event){
-                        //       if(event.ctrlKey || event.metaKey){
-                        //           back_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           mid_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           front_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //       }
-                        //     //   console.log(document.getElementsByClassName("connections"))
-                        //     //   document.getElementsByClassName("connections").filter((d, i) => d)
-                        //       connections.attr("stroke-width", ".02")
-                        //           .filter(d => d.clean_roles != "Goalkeeper") 
-                        //           .transition()
-                        //           .attr("stroke-width", "0")
-                        //       shots.transition()
-                        //            .attr("stroke-width", "0")
-                        //   })
+
           var back_line = svg.append("g")
                           .append('line')
                           .attr('x1', back_x)
@@ -267,37 +294,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                           .attr('y2', dimensions.margin.top)
                           .style("stroke", "black")
                           .style("stroke-width", "3")
-                        //   .on("mouseover", function(){
-                        //       d3.select(this).style("stroke-width", "4")
-                        //   })
-                        //   .on("mouseout", function(){
-                        //       d3.select(this).style("stroke-width", "3")
-                        //   })
-                        //   .on("click", function(event){
-                        //       if(event.ctrlKey || event.metaKey){
-                        //           goalie.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           mid_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           front_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //       }
-                        //       connections.attr("stroke-width", ".02")
-                        //           .filter(d => d.clean_roles != "Defender") 
-                        //           .transition()
-                        //           .attr("stroke-width", "0")
-                        //         shots.transition()
-                        //              .attr("stroke-width", "0")
-                        //   })
+
           var mid_line = svg.append("g")
                             .append('line')
                             .attr('x1', mid_x)
@@ -306,37 +303,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                             .attr('y2', dimensions.margin.top)
                             .style("stroke", "black")
                             .style("stroke-width", "3")
-                        //     .on("mouseover", function(){
-                        //       d3.select(this).style("stroke-width", "4")
-                        //     })
-                        //     .on("mouseout", function(){
-                        //       d3.select(this).style("stroke-width", "3")
-                        //     })
-                        //     .on("click", function(event){
-                        //       if(event.ctrlKey || event.metaKey){
-                        //           goalie.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           back_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //           front_line.on("click", function(){
-                        //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Forward")
-                        //               .transition()
-                        //               .attr("stroke-width", "0")
-                        //           })
-                        //       }
-                        //       connections.attr("stroke-width", ".02")
-                        //           .filter(d => d.clean_roles != "Midfielder") 
-                        //           .transition()
-                        //           .attr("stroke-width", "0")
-                        //       shots.transition()
-                        //            .attr("stroke-width", "0")
-                        //   })
+
           var front_line = svg.append("g")
                               .append('line')
                               .attr('x1', front_x)
@@ -345,48 +312,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                               .attr('y2', dimensions.margin.top)
                               .style("stroke", "black")
                               .style("stroke-width", "3")
-                            //   .on("mouseover", function(){
-                            //       d3.select(this).style("stroke-width", "4")
-                            //   })
-                            //   .on("mouseout", function(){
-                            //       d3.select(this).style("stroke-width", "3")
-                            //   })
-                            //   .on("click", function(event){
-                            //     shots.attr("stroke-width", "0.02")
-                            //       if(event.ctrlKey || event.metaKey){
-                            //           goalie.on("click", function(){
-                            //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Goalkeeper")
-                            //               .transition()
-                            //               .attr("stroke-width", "0")
-                            //           })
-                            //           back_line.on("click", function(){
-                            //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Defender")
-                            //               .transition()
-                            //               .attr("stroke-width", "0")
-                            //           })
-                            //           mid_line.on("click", function(){
-                            //               connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
-                            //               .transition()
-                            //               .attr("stroke-width", "0")
-                            //           })
-                            //           shots1.transition()
-                            //           .attr("stroke-width", "0")
-                            //           if(networkNum == 2)
-                            //             shots2.transition().attr("stroke-width", 0)
-                            //       }
-                            //       connections.attr("stroke-width", "0.02")
-                            //           .filter(d => d.clean_roles != "Forward") 
-                            //           .transition()
-                            //           .attr("stroke-width", "0")
-                            //       // if (d3.event.ctrlKey) {
-                            //       //     console.log("hello control was pressed")
-                            //           // mid_line.on("click", function(){
-                            //           //     connections.filter((d, i) => events_data[(+d.True_Index)+1].clean_roles != "Midfielder")
-                            //           //     .transition()
-                            //           //     .attr("stroke-width", "0")
-                            //       //     })
-                            //       // }
-                            //   })
+
           var goal_line = svg.append("g")
                              .append('line')
                              .attr('x1', goal_x)
@@ -395,15 +321,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                              .attr('y2', 0.4 * (dimensions.height + dimensions.margin.top))
                              .style("stroke", "black")
                              .style("stroke-width", "3")
-                            //  .on("mouseover", function(){
-                            //     d3.select(this).style("stroke-width", "4")
-                            //  })
-                            //  .on("mouseout", function(){
-                            //     d3.select(this).style("stroke-width", "3")
-                            //  })
-                            //  .on("click", function(){
-                            //     createNetwork(fileName, networkNum)
-                            //  })
+
          var top_border = svg.append("g")
                                  .append('line')
                                  .attr('x1', goal_x)
@@ -444,7 +362,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                 .style("stroke", "black")
                                 .style("stroke-width", "2")
                                 .style("fill", "#bbbbbb40")
-                                //.style("opacity", 0)
 
           if(networkNum == 1){
             events_data1 = events_data
@@ -465,8 +382,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                     return events_data[(+d.True_Index)+1].clean_roles != "IDK"
                                 })
                                 .filter((d,i) => {
-                                    //console.log("d", d)
-                                    //console.log("i", i)
                                     if(i == 0 && d.eventName != "Pass")
                                         return
                                     if(d.eventName == "Pass" || events_data[(+d.True_Index)-1].eventName == "Pass"){
@@ -475,7 +390,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                 })
                                 .filter((d, i) => d.clean_roles != events_data[(+d.True_Index)+1].clean_roles) //here
                                 .attr("x1", (d, i) => {
-                                    //console.log(d)
                                     if(d.eventName == "Pass"){
         
                                         if(d.clean_roles == "Goalkeeper"){
@@ -494,18 +408,11 @@ d3.csv("./ProjectData/bubble1718.csv").then(
         
                                 })
                                 .attr("y1", (d,i) =>{
-                                    if(d.eventName == "Pass"){
-                                        //   if(d.clean_roles == "Goalkeeper"){
-                                        //       return (dimensions.height + dimensions.margin.top) / 2
-                                        //   }
+                                    if(d.eventName == "Pass")
                                         return yScale(d.start_y)
-                                    }
-                                    
                                 })
                                 .attr("x2", (d,i) => {
-                                    //console.log(events_data[(+d.True_Index)+1].clean_roles)
                                     if(d.eventName == "Pass"){
-                                        //console.log(events_data[(+d.True_Index)+1].clean_roles)
                                         if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
                                             return goalie_x
                                         }
@@ -518,9 +425,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                         if(events_data[(+d.True_Index)+1].clean_roles == "Forward"){
                                             return front_x
                                         }
-                                        console.log("inside x2", events_data[(+d.True_Index)+1].clean_roles)
                                         return dimensions.width + 1
-                                        // d3.select(this).setAttribute("x1", 0)
                                     }
                                 })
                                 .attr("y2", (d,i) => {
@@ -563,7 +468,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                  return d
                              }})
                             .attr("x1", (d, i) => {
-                                 //console.log(d
                                  if(d.clean_roles == "Goalkeeper"){
                                      return goalie_x
                                  }
@@ -575,9 +479,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                  }
                                  if(d.clean_roles == "Forward"){
                                      return front_x
-                                 }
-                             
-        
+                                 } 
                               })
                              .attr("y1", (d,i) =>{
                                  if(d.clean_roles == "Goalkeeper"){
@@ -587,14 +489,10 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                  
                               })
                              .attr("x2", (d,i) => {
-                                 //console.log(events_data[(+d.True_Index)+1].clean_roles)
-                                 return goal_x
-                                 
+                                 return goal_x                 
                               })
                              .attr("y2", (d,i) => {
-        
                                  return (0.5 * (dimensions.height + dimensions.margin.top))
-                                 
                               })
                              .attr("stroke", (d,i) => {
         
@@ -625,7 +523,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                 .enter()
                 .append("line")
                 .attr("class", "connections")
-                .filter((d,i)=> +d.True_Index+1< events_data.length) //was 20000 and line width was .03
+                .filter((d,i)=> +d.True_Index+1< events_data.length) 
                 .filter((d,i) =>{
                     return d.clean_roles != "IDK"
                 })
@@ -633,8 +531,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                     return events_data[(+d.True_Index)+1].clean_roles != "IDK"
                 })
                 .filter((d,i) => {
-                    //console.log("d", d)
-                    //console.log("i", i)
                     if(i == 0 && d.eventName != "Pass")
                         return
                     if(d.eventName == "Pass" || events_data[(+d.True_Index)-1].eventName == "Pass"){
@@ -643,7 +539,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                 })
                 .filter((d, i) => d.clean_roles != events_data[(+d.True_Index)+1].clean_roles) //here
                 .attr("x1", (d, i) => {
-                    //console.log(d)
                     if(d.eventName == "Pass"){
 
                         if(d.clean_roles == "Goalkeeper"){
@@ -663,17 +558,12 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                 })
                 .attr("y1", (d,i) =>{
                     if(d.eventName == "Pass"){
-                        //   if(d.clean_roles == "Goalkeeper"){
-                        //       return (dimensions.height + dimensions.margin.top) / 2
-                        //   }
                         return yScale(d.start_y)
                     }
                     
                 })
                 .attr("x2", (d,i) => {
-                    //console.log(events_data[(+d.True_Index)+1].clean_roles)
                     if(d.eventName == "Pass"){
-                        //console.log(events_data[(+d.True_Index)+1].clean_roles)
                         if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
                             return goalie_x
                         }
@@ -688,14 +578,10 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                         }
                         console.log("inside x2", events_data[(+d.True_Index)+1].clean_roles)
                         return dimensions.width + 1
-                        // d3.select(this).setAttribute("x1", 0)
                     }
                 })
                 .attr("y2", (d,i) => {
                     if(d.eventName == "Pass"){
-                        //   if(events_data[(+d.True_Index)+1].clean_roles == "Goalkeeper"){
-                        //       return (dimensions.height + dimensions.margin.top) / 2
-                        //   }
                         return yScale(d.end_y)
                     }
                     
@@ -731,7 +617,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                      return d
                  }})
                 .attr("x1", (d, i) => {
-                     //console.log(d
                      if(d.clean_roles == "Goalkeeper"){
                          return goalie_x
                      }
@@ -755,7 +640,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                      
                   })
                  .attr("x2", (d,i) => {
-                     //console.log(events_data[(+d.True_Index)+1].clean_roles)
                      return goal_x
                      
                   })
@@ -861,9 +745,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                             .attr("stroke-width", "0")
                                             shots2.transition().attr("stroke-width", 0)
                                         }
-
-                                      //   console.log(document.getElementsByClassName("connections"))
-                                      //   document.getElementsByClassName("connections").filter((d, i) => d)
                                     })
     
                 var goalieText = selectionSVG.append("text")
@@ -1128,7 +1009,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                     .style("fill", "red")
                                     .text("Forward")
                     
-                if(networkNum == 1){
+                // if(networkNum == 1){
                     var brushSVG = d3.select("#brush")
                         .style("width", 20)
                         .style("height", dimensions.height)
@@ -1144,110 +1025,152 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                     var brush = d3.brushY()
                     .extent([[4,dimensions.margin.top], [16, dimensions.height]])
                     .on("brush", (event, d) => {
-                      //console.log(event.selection)
                       connections1.transition()
                       .attr("stroke-width", d => {
                           if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
                               return 0
                           return ".02"
                       })
-                      connections2.transition()
-                      .attr("stroke-width", d => {
+                      shots1.transition()
+                      .attr("stroke-width", d=> {
                           if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
                               return 0
                           return ".02"
                       })
+                      if(networkNum == 2){
+                            connections2.transition()
+                            .attr("stroke-width", d => {
+                                if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
+                                    return 0
+                                return ".02"
+                            })
+                            shots2.transition()
+                            .attr("stroke-width", d=> {
+                                console.log("d.start_y", d.start_y)
+                                if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
+                                    return 0
+                                return ".02"
+                            })
+                        }
                     })
                     brushSVG.append("g")
                     .attr("class", "brush")
+                    .attr("id", "selectionElem")
                     .call(brush)
 
                 var goalieBrush = d3.brushY()
                     .extent([[goalie_x-6,dimensions.margin.top], [goalie_x+6, dimensions.height]])
                     .on("brush", (event, d) => {
-                        //console.log(event.selection)
                         connections1.transition()
                         .attr("stroke-width", d => {
                             if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Goalkeeper")
                                 return 0
                             return ".02"
                         })
-                        connections2.transition()
-                        .attr("stroke-width", d => {
-                            if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Goalkeeper")
-                                return 0
-                            return ".02"
-                        })
+                        shots1.transition().attr("stroke-width", 0)
+                        if(networkNum == 2){
+                            connections2.transition()
+                            .attr("stroke-width", d => {
+                                if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Goalkeeper")
+                                    return 0
+                                return ".02"
+                            })
+                            shots2.transition().attr("stroke-width", 0)
+                        }
                     })
                 
                 var defenseBrush = d3.brushY()
                     .extent([[back_x-6,dimensions.margin.top], [back_x+6, dimensions.height]])
                     .on("brush", (event, d) => {
-                        //console.log(event.selection)
                         connections1.transition()
                         .attr("stroke-width", d => {
                             if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Defender")
                                 return 0
                             return ".02"
                         })
-                        connections2.transition()
-                        .attr("stroke-width", d => {
-                            if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Defender")
-                                return 0
-                            return ".02"
-                        })
-                        
+                        shots1.transition().attr("stroke-width", 0)
+                        if(networkNum == 2){
+                            connections2.transition()
+                            .attr("stroke-width", d => {
+                                if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Defender")
+                                    return 0
+                                return ".02"
+                            })
+                            shots2.transition().attr("stroke-width", 0)
+                        }
                     })
 
                 var midBrush = d3.brushY()
                     .extent([[mid_x-6,dimensions.margin.top], [mid_x+6, dimensions.height]])
                     .on("brush", (event, d) => {
-                        //console.log(event.selection)
                         connections1.transition()
                         .attr("stroke-width", d => {
                             if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Midfielder")
                                 return 0
                             return ".02"
                         })
-                        connections2.transition()
-                        .attr("stroke-width", d => {
-                            if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Midfielder")
-                                return 0
-                            return ".02"
-                        })
+                        shots1.transition().attr("stroke-width", 0)
+                        if(networkNum == 2){
+                            connections2.transition()
+                            .attr("stroke-width", d => {
+                                if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Midfielder")
+                                    return 0
+                                return ".02"
+                            })
+                            shots2.transition().attr("stroke-width", 0)
+                        }
                     })
 
                 var forwardBrush = d3.brushY()
                     .extent([[front_x-6,dimensions.margin.top], [front_x+6, dimensions.height]])
                     .on("brush", (event, d) => {
-                        //console.log(event.selection)
                         connections1.transition()
                         .attr("stroke-width", d => {
                             if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Forward")
                                 return 0
                             return ".02"
                         })
-                        connections2.transition()
-                        .attr("stroke-width", d => {
-                            if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Forward")
+
+                        shots1.transition()
+                        .attr("stroke-width", d=> {
+                            if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
                                 return 0
                             return ".02"
                         })
+                        if(networkNum == 2){
+                            shots2.transition()
+                            .attr("stroke-width", d=> {
+                                console.log("d.start_y", d.start_y)
+                                if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
+                                    return 0
+                                return ".02"
+                            })
+                            connections2.transition()
+                            .attr("stroke-width", d => {
+                                if((yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1])) || d.clean_roles != "Forward")
+                                    return 0
+                                return ".02"
+                            })
+                        }
                     })
                 
-                svg.append("g")
+                d3.select("#network1").append("g")
                     .attr("class", "brush")
+                    .attr("id", "selectionElem")
                     .call(goalieBrush)
-                svg.append("g")
+                d3.select("#network1").append("g")
                     .attr("class", "brush")
+                    .attr("id", "selectionElem")
                     .call(defenseBrush)
-                svg.append("g")
+                d3.select("#network1").append("g")
                     .attr("class", "brush")
+                    .attr("id", "selectionElem")
                     .call(midBrush)
-                svg.append("g")
+                d3.select("#network1").append("g")
                     .attr("class", "brush")
+                    .attr("id", "selectionElem")
                     .call(forwardBrush)
-                }
+                // }
 
                 var resetClick = function(event, d){
                     createNetwork(file1, 1)
@@ -1258,7 +1181,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                     }
                 }
                 var reset = selectionSVG.append("rect")
-                                    // .attr("id", "selectionElem")
                                     .attr("x", goal_x)
                                     .attr("y", 17)
                                     .attr("width", 55)
@@ -1275,7 +1197,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                     .on("click", resetClick)
 
                 var resetText = selectionSVG.append("text")
-                                    // .attr("id", "selectionElem")
                                     .attr("x", goal_x + 3)
                                     .attr("y", height/1.6)
                                     .attr("text-anchor", "start")
@@ -1288,8 +1209,4 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                     .on("click", resetClick)
                                     .text("Reset")          
      })}
-    //  createNetwork("./ProjectData/Premier League/Arsenal_event_data.csv", 1)
-    //  createNetwork("./ProjectData/Premier League/Chelsea_event_data.csv", 2)
-
-
 })
