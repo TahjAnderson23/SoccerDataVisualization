@@ -179,7 +179,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
             .style("stroke-width", 3)
 
           var fileName = "./ProjectData/" + d.league + "/" + d.team + "_event_data.csv"
-          console.log(fileName)
+          //console.log(fileName)
           if(first)
                createNetwork(fileName, 1)
           else
@@ -576,7 +576,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                         if(events_data[(+d.True_Index)+1].clean_roles == "Forward"){
                             return front_x
                         }
-                        console.log("inside x2", events_data[(+d.True_Index)+1].clean_roles)
+                        //console.log("inside x2", events_data[(+d.True_Index)+1].clean_roles)
                         return dimensions.width + 1
                     }
                 })
@@ -1009,7 +1009,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                                     .style("fill", "red")
                                     .text("Forward")
                     
-                // if(networkNum == 1){
                     var brushSVG = d3.select("#brush")
                         .style("width", 20)
                         .style("height", dimensions.height)
@@ -1046,7 +1045,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                             })
                             shots2.transition()
                             .attr("stroke-width", d=> {
-                                console.log("d.start_y", d.start_y)
+                                //console.log("d.start_y", d.start_y)
                                 if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
                                     return 0
                                 return ".02"
@@ -1140,7 +1139,7 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                         if(networkNum == 2){
                             shots2.transition()
                             .attr("stroke-width", d=> {
-                                console.log("d.start_y", d.start_y)
+                                //console.log("d.start_y", d.start_y)
                                 if(yScale(d.start_y) < event.selection[0] || (yScale(d.start_y) > event.selection[1]))
                                     return 0
                                 return ".02"
@@ -1170,7 +1169,6 @@ d3.csv("./ProjectData/bubble1718.csv").then(
                     .attr("class", "brush")
                     .attr("id", "selectionElem")
                     .call(forwardBrush)
-                // }
 
                 var resetClick = function(event, d){
                     createNetwork(file1, 1)
